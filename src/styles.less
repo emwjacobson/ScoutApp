@@ -1,2 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    50% { opacity: 0.1; }
+    100% { opacity: 0.2; }
+}
+
+.ng-sidebar__backdrop {
+    opacity: 0.2 !important;
+    animation-name: fadeIn !important;
+    animation-duration: .2s !important;
+}

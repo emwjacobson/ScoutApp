@@ -1,0 +1,34 @@
+ng-sidebar-container {
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: white;
+    min-height: 100vh;
+    ul {
+        li {
+            a, a:visited, a:active {
+                text-decoration: none;
+                display: block;
+                padding: 10px;
+                padding-right: 20px;
+            }
+            a:hover {
+                background-color: lighten(lightgray, 5%);;
+            }
+            .active {
+                background-color: lighten(lightgray, 10%);
+            }
+            font-size: 20px;
+            border-bottom: 1px solid lightgray;
+        }
+        margin: 0;
+        padding: 0;
+    }
+    border-right: 1px solid lightgray;
+}
+
+.main-content {
+    background-color: white;
+}
