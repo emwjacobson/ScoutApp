@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
 })
 export class HeaderComponent implements OnInit {
   @Output() sidebarToggle: EventEmitter<any> = new EventEmitter();
-  private name = environment.name;
+  public name = environment.name;
 
   constructor() { }
 
