@@ -3,6 +3,8 @@
 # Secret files
 /src/environments/environment.prod.ts
 /src/environments/environment.ts
+/functions/src/settings.ts
+/functions/lib
 
 # compiled output
 /dist

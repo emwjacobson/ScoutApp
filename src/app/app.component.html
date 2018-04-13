@@ -3,9 +3,14 @@
   <ng-sidebar [(opened)]="opened" mode="over" showBackdrop="true" closeOnClickBackdrop="true">
     <div class="sidebar">
       <ul>
-        <li *ngFor="let page of pages">
+        <li *ngFor="let page of public_pages">
           <a [routerLink]="page.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ page.title }}</a>
         </li>
+        <ng-container *ngIf="getUser() as user" >
+            <li *ngFor="let page of signed_in_pages">
+              <a [routerLink]="page.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ page.title }}</a>
+            </li>
+        </ng-container>
       </ul>
     </div>
   </ng-sidebar>

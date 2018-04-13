@@ -1,5 +1,17 @@
 <div class="container" style="position: relative; top: 20px;">
   <div class="col-sm-6 offset-sm-3">
+    <div *ngIf="error.error" class="alert alert-danger" role="alert">
+      <h5 class="alert-heading">Error!</h5>
+      <hr>
+      <p class="mb-0">{{ error.message }}</p>
+    </div>
+    <div *ngIf="success.success" class="alert alert-success" role="alert">
+      <h5 class="alert-heading">Success!</h5>
+      <hr>
+      <p class="mb-0">{{ success.message }}</p>
+    </div>
+  </div>
+  <div class="col-sm-6 offset-sm-3">
       <div class="card">
         <div class="card-header">
           Login
@@ -8,12 +20,12 @@
           <form #loginForm="ngForm" (submit)="login()">
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" class="form-control" id="email" required [(ngModel)]="login_form.email" name="email">
+              <input type="email" class="form-control" id="email" required minlength="6" [(ngModel)]="login_form.email" name="email">
               <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" required [(ngModel)]="login_form.password" name="password">
+              <input type="password" class="form-control" id="password" required minlength="6" [(ngModel)]="login_form.password" name="password">
             </div>
             <div class="col-sm-12 text-center">
               <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Submit</button>

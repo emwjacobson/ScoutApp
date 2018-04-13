@@ -3,7 +3,13 @@
       <i class="fa fa-bars" style="padding: 10px;" (click)="toggleSidebar()"></i>&nbsp;&nbsp;<a class="navbar-brand" routerLink="/">{{ name }}</a>
   </div>
   <form class="navbar-text">
-    <a routerLink="login">Login</a>&nbsp;&nbsp;&nbsp;
-    <a routerLink="register">Register</a>
+    <div *ngIf="getUser() as user; else loggedOut">
+      {{ user.displayName }}&nbsp;&nbsp;&nbsp;
+      <a (click)="logout()">Logout</a>
+    </div>
+    <ng-template #loggedOut>
+      <a routerLink="login">Login</a>&nbsp;&nbsp;&nbsp;
+      <a routerLink="register">Register</a>
+    </ng-template>
   </form>
 </nav>
