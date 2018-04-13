@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public title = 'app';
-  public opened = true;
+  public opened = false;
   public pages = [
     { title: 'Home', url: '' },
     { title: 'Test', url: 'test' }

@@ -1,9 +1,9 @@
 <nav class="navbar sticky-top navbar-light bg-light">
   <div class="navbar-brand">
-      <i class="fa fa-bars" (click)="toggleSidebar()"></i>&nbsp;&nbsp;<a class="navbar-brand" href="#">{{ name }}</a>
+      <i class="fa fa-bars" style="padding: 10px;" (click)="toggleSidebar()"></i>&nbsp;&nbsp;<a class="navbar-brand" href="#">{{ name }}</a>
   </div>
   <form class="navbar-text">
-    <a href="">Login</a>&nbsp;&nbsp;&nbsp;
-    <a href="">Register</a>
+    <a routerLink="login">Login</a>&nbsp;&nbsp;&nbsp;
+    <a routerLink="register">Register</a>
   </form>
 </nav>

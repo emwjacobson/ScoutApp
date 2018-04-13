@@ -1,18 +1,18 @@
 <app-header (sidebarToggle)="toggleSidebar()"></app-header>
 <ng-sidebar-container>
-    <ng-sidebar [(opened)]="opened" mode="push" showBackdrop="true" closeOnClickBackdrop="true">
-        <div class="sidebar">
-            <ul>
-                <li *ngFor="let page of pages">
-                    <a [routerLink]="page.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ page.title }}</a>
-                </li>
-            </ul>
-        </div>
-    </ng-sidebar>
-
-    <div ng-sidebar-content>
-        <div ng-sidebar-content class="main-content">
-            <router-outlet></router-outlet>
-        </div>
+  <ng-sidebar [(opened)]="opened" mode="over" showBackdrop="true" closeOnClickBackdrop="true">
+    <div class="sidebar">
+      <ul>
+        <li *ngFor="let page of pages">
+          <a [routerLink]="page.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ page.title }}</a>
+        </li>
+      </ul>
     </div>
+  </ng-sidebar>
+
+  <div ng-sidebar-content>
+    <div ng-sidebar-content class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </ng-sidebar-container>
