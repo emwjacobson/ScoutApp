@@ -3,7 +3,7 @@
       <i class="fa fa-bars" style="padding: 10px;" (click)="toggleSidebar()"></i>&nbsp;&nbsp;<a class="navbar-brand" routerLink="/">{{ name }}</a>
   </div>
   <form class="navbar-text">
-    <div *ngIf="getUser() as user; else loggedOut">
+    <div *ngIf="(getUser() | async) as user; else loggedOut">
       {{ user.displayName }}&nbsp;&nbsp;&nbsp;
       <a (click)="logout()">Logout</a>
     </div>

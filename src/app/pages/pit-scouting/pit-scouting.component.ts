@@ -6,6 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pit-scouting.component.less']
 })
 export class PitScoutingComponent implements OnInit {
+  public pit_form = {
+    team_number: null,
+    image: null,
+    drivetrain: '',
+    comments: '',
+  };
 
   constructor() { }
 

@@ -9,13 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.less']
 })
 export class RegisterComponent implements OnInit {
-  public error = {
-    error: false,
-    message: '',
-  };
-  public success = {
-    success: false,
-    message: '',
+  public alert = {
+    enabled: false,
+    type: '',
+    message: ''
   };
   public register_form = {
     email: '',
@@ -30,36 +27,40 @@ export class RegisterComponent implements OnInit {
   }
 
   public register() {
+    this.alert.type = 'primary';
+    this.alert.message = 'Attempting to register...';
+    this.alert.enabled = true;
     if (this.register_form.password !== this.register_form.rpt_password) {
-      this.error.error = true;
-      this.error.message = 'Passwords do not match.';
+      this.alert.type = 'danger';
+      this.alert.message = 'Passwords do not match.';
+      this.alert.enabled = true;
       return;
     }
     this.backend.register(this.register_form).then((user_info) => {
-      this.success.message = 'Registered Successfully!  Redirecting to login...';
-      this.success.success = true;
-      this.error.error = false;
+      this.alert.type = 'success';
+      this.alert.message = 'Registered Successfully!  Redirecting to login...';
+      this.alert.enabled = true;
       setTimeout(() => {
         this.router.navigate(['login']);
       }, 2000);
     }).catch((error) => {
-      this.success.success = false;
-      this.error.error = true;
+      this.alert.type = 'danger';
       switch (error.code) {
         case 'invalid-argument':
-          this.error.message = error.message;
+          this.alert.message = error.message;
           break;
         case 'already-exists':
-          this.error.message = error.message;
+          this.alert.message = error.message;
           break;
         case 'internal':
-          this.error.message = error.message;
+          this.alert.message = error.message;
           break;
         default:
           console.log(error);
-          this.error.message = 'An unknown error occured. Check console.';
+          this.alert.message = 'An unknown error occured. Check console.';
           break;
       }
+      this.alert.enabled = true;
     });
   }
 

@@ -9,12 +9,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.less']
 })
 export class LoginComponent implements OnInit {
-  public error = {
-    error: false,
-    message: ''
-  };
-  public success = {
-    success: false,
+  public alert = {
+    enabled: false,
+    type: '',
     message: ''
   };
   public login_form = {
@@ -28,33 +25,36 @@ export class LoginComponent implements OnInit {
   }
 
   public login() {
+    this.alert.type = 'primary';
+    this.alert.message = 'Attempting to sign in...',
+    this.alert.enabled = true;
     this.backend.login(this.login_form).then((user: UserCredential) => {
-      this.success.success = true;
-      this.success.message = 'Successfully logged in, redirecting...';
-      this.error.error = false;
+      this.alert.type = 'success';
+      this.alert.message = 'Login Successful, Redirecting...';
+      this.alert.enabled = true;
       setTimeout(() => {
         this.router.navigate(['/']);
       }, 1000);
     }).catch((error) => {
-      this.success.success = false;
-      this.error.error = true;
+      this.alert.type = 'danger';
       switch (error.code) {
         case 'auth/invalid-email':
-          this.error.message = error.message;
+          this.alert.message = error.message;
           break;
         case 'auth/user-disabled':
-          this.error.message = error.message;
+          this.alert.message = error.message;
           break;
         case 'auth/user-not-found':
-          this.error.message = error.message;
+          this.alert.message = error.message;
           break;
         case 'auth/wrong-password':
-          this.error.message = error.message;
+          this.alert.message = error.message;
           break;
         default:
           console.log(error);
-          this.error.message = 'An unknown error occured, check console.';
+          this.alert.message = 'An unknown error occured, check console.';
       }
+      this.alert.enabled = true;
     });
   }
 

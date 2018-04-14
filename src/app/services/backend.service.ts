@@ -5,18 +5,19 @@ import { UserCredential, User } from '@firebase/auth-types';
 import { FirebaseFunctions, HttpsCallableResult } from '@firebase/functions-types';
 import firebase from '@firebase/app';
 import '@firebase/functions';
+import { Observable } from 'rxjs/observable';
 
 @Injectable()
 export class BackendService {
   private createUser = firebase.functions().httpsCallable('registerUser');
-  private user: User = null;
+  // private user: User = null;
 
   constructor(private db: AngularFirestore, private auth: AngularFireAuth) {
-    this.auth.authState.subscribe((user: User) => {
-      this.user = user;
-    }, (error) => {
-      console.log('Error in authState', error);
-    });
+    // this.auth.authState.subscribe((user: User) => {
+    //   this.user = user;
+    // }, (error) => {
+    //   console.log('Error in authState', error);
+    // });
   }
 
   public register(user): Promise<HttpsCallableResult> {
@@ -31,7 +32,7 @@ export class BackendService {
     this.auth.auth.signOut();
   }
 
-  public getUser(): User {
-    return this.user;
+  public getUser(): Observable<User> {
+    return this.auth.authState;
   }
 }

@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { BackendService } from '../../services/backend.service';
 import { Router } from '@angular/router';
 import { User } from '@firebase/auth-types';
+import { Observable } from 'rxjs/observable';
 
 @Component({
   selector: 'app-header',
@@ -27,7 +28,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  public getUser(): User {
+  public getUser(): Observable<User> {
     return this.backend.getUser();
   }
 
