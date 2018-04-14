@@ -13,7 +13,6 @@ export class BackendService {
 
   constructor(private db: AngularFirestore, private auth: AngularFireAuth) {
     this.auth.authState.subscribe((user: User) => {
-      console.log(user);
       this.user = user;
     }, (error) => {
       console.log('Error in authState', error);

@@ -20,7 +20,8 @@ export class RegisterComponent implements OnInit {
   public register_form = {
     email: '',
     displayName: '',
-    password: ''
+    password: '',
+    rpt_password: ''
   };
 
   constructor(private router: Router, private backend: BackendService) { }
@@ -29,13 +30,18 @@ export class RegisterComponent implements OnInit {
   }
 
   public register() {
+    if (this.register_form.password !== this.register_form.rpt_password) {
+      this.error.error = true;
+      this.error.message = 'Passwords do not match.';
+      return;
+    }
     this.backend.register(this.register_form).then((user_info) => {
-      this.success.message = 'Registered Successfully!';
+      this.success.message = 'Registered Successfully!  Redirecting to login...';
       this.success.success = true;
       this.error.error = false;
       setTimeout(() => {
         this.router.navigate(['login']);
-      }, 1000);
+      }, 2000);
     }).catch((error) => {
       this.success.success = false;
       this.error.error = true;

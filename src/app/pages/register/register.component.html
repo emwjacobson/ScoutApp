@@ -31,6 +31,10 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" required minlength="6" [(ngModel)]="register_form.password" name="password">
           </div>
+          <div class="form-group">
+            <label for="rpt_password">Repeat Password</label>
+            <input type="password" class="form-control" id="rpt_password" required minlength="6" [(ngModel)]="register_form.rpt_password" name="rpt_password">
+          </div>
           <div class="col-sm-12 text-center">
             <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Submit</button>
           </div>
