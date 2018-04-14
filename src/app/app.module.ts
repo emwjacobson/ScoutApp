@@ -19,6 +19,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { BackendService } from './services/backend.service';
 import { AuthGuard } from './guards/auth.guard';
 import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.componen
     LoginComponent,
     RegisterComponent,
     PitScoutingComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

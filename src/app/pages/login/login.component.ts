@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
   };
 
   constructor(private router: Router, private backend: BackendService) { }
-  // public regionals = this.backend.getRegionals();
 
   ngOnInit() {
     this.getRegionals();

@@ -1,0 +1,37 @@
+<div class="container" style="position: relative; top: 20px;">
+  <div class="col-sm-6 offset-sm-3">
+    <div *ngIf="alert.enabled && alert.type === 'danger'" class="alert alert-danger" role="alert">
+      <h5 class="alert-heading">Error!</h5>
+      <hr>
+      <p class="mb-0">{{ alert.message }}</p>
+    </div>
+    <div *ngIf="alert.enabled && alert.type === 'success'" class="alert alert-success" role="alert">
+      <h5 class="alert-heading">Success!</h5>
+      <hr>
+      <p class="mb-0">{{ alert.message }}</p>
+    </div>
+    <div *ngIf="alert.enabled && alert.type === 'primary'" class="alert alert-primary" role="alert">
+      <p class="mb-0">{{ alert.message }}</p>
+    </div>
+  </div>
+  <div class="col-sm-6 offset-sm-3">
+    <div class="card">
+      <div class="card-header">
+        Competition Settings
+      </div>
+      <div class="card-body">
+        <form #regionalForm="ngForm" (submit)="saveRegional()">
+          <div class="form-group">
+            <label for="regional">Set Regional</label>
+            <select type="text" class="form-control" id="regional" required minlength="3" [(ngModel)]="regional_form.regional" name="regional">
+              <option *ngFor="let reg of regionals" [value]="reg.data().id">{{ reg.data().name }}</option>
+            </select>
+          </div>
+          <div class="col-sm-12 text-center">
+            <button type="submit" class="btn btn-primary" [disabled]="regionalForm.invalid">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

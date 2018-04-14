@@ -10,6 +10,7 @@ import { environment } from '../../environments/environment';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { UploadTaskSnapshot } from '@firebase/storage-types';
 import { QuerySnapshot, DocumentReference, CollectionReference, DocumentSnapshot, DocumentData } from '@firebase/firestore-types';
+import * as md5 from 'md5';
 
 @Injectable()
 export class BackendService {
@@ -93,22 +94,25 @@ export class BackendService {
       return Promise.reject({code: 'regional-not-set', message: 'The current regional has not been set.'});
     }
 
-    const image_name = data.team_number;
+    // const image_name = data.team_number;
+    const image_name = md5(data.image).substr(0, 10);
     const image_type = /image\/(.*?);base64/g.exec(data.image)[1]; // This gets the image type from the base64 encoded image
-    const file_path = `${environment.year}/${this.regional.id}/${image_name}.${image_type}`;
+    const image_name_full = image_name + '.' + image_type;
+    const file_path = `${environment.year}/${this.regional.id}/${image_name_full}`;
 
     const ref = this.storage.ref(file_path);
 
     // Upload image
     return ref.putString(data.image, 'data_url').then((snapshot: UploadTaskSnapshot) => {
-      const pit_data = {};
-      pit_data[data.team_number] = {
+      const pit_data = {
         team_number: data.team_number,
         drivetrain: data.drivetrain,
-        comments: data.comments
+        comments: data.comments,
+        image: image_name_full
       };
 
-      // Update db
+      // Add database entry.
+      // TODO: Check for existing pit scout, and if present append image to array of images?
       return this.pit_scout.add(pit_data).then(() => {
         return Promise.resolve(true);
       });

@@ -5,6 +5,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,10 +17,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'pit', component: PitScoutingComponent },
-        // { path: 'match', component: MatchScoutingComponent },
-        // { path: 'edit-match-scouting', component: EditMatchScoutingComponent },
-        // { path: 'match-schedule', component: MatchScheduleComponent },
-        // { path: 'list', component: ListComponent }
+      { path: 'settings', component: SettingsComponent },
+      // { path: 'match', component: MatchScoutingComponent },
+      // { path: 'edit-match-scouting', component: EditMatchScoutingComponent },
+      // { path: 'match-schedule', component: MatchScheduleComponent },
+      // { path: 'list', component: ListComponent }
     ]
   },
   { path: '**', redirectTo: '' },
