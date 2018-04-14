@@ -13,10 +13,12 @@ import { Observable } from 'rxjs/observable';
 export class HeaderComponent implements OnInit {
   @Output() sidebarToggle: EventEmitter<any> = new EventEmitter();
   public name = environment.name;
+  public regional = {};
 
   constructor(private router: Router, private backend: BackendService) { }
 
   ngOnInit() {
+    this.getRegional();
   }
 
   public toggleSidebar(): void {
@@ -30,6 +32,10 @@ export class HeaderComponent implements OnInit {
 
   public getUser(): Observable<User> {
     return this.backend.getUser();
+  }
+
+  public getRegional() {
+    return this.backend.getCurRegional();
   }
 
 }

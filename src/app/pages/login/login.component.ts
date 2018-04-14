@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.less']
 })
 export class LoginComponent implements OnInit {
+  public regionals = [];
   public alert = {
     enabled: false,
     type: '',
@@ -16,12 +17,21 @@ export class LoginComponent implements OnInit {
   };
   public login_form = {
     email: '',
-    password: ''
+    password: '',
+    regional: ''
   };
 
   constructor(private router: Router, private backend: BackendService) { }
+  // public regionals = this.backend.getRegionals();
 
   ngOnInit() {
+    this.getRegionals();
+  }
+
+  public getRegionals() {
+    this.backend.getRegionals().onSnapshot((data) => {
+      this.regionals = data.docs;
+    });
   }
 
   public login() {
@@ -30,6 +40,7 @@ export class LoginComponent implements OnInit {
       message: 'Attempting to sign in...',
       enabled: true
     };
+
     this.backend.login(this.login_form).then((user: UserCredential) => {
       this.alert = {
         type: 'success',

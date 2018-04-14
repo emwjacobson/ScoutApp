@@ -4,7 +4,7 @@
   </div>
   <form class="navbar-text">
     <div *ngIf="(getUser() | async) as user; else loggedOut">
-      {{ user.displayName }}&nbsp;&nbsp;&nbsp;
+      {{ getRegional().name }}&nbsp;&nbsp;&nbsp;
       <a (click)="logout()">Logout</a>
     </div>
     <ng-template #loggedOut>

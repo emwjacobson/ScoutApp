@@ -9,49 +9,93 @@ import { Observable } from 'rxjs/observable';
 import { environment } from '../../environments/environment';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { UploadTaskSnapshot } from '@firebase/storage-types';
+import { QuerySnapshot, DocumentReference, CollectionReference, DocumentSnapshot, DocumentData } from '@firebase/firestore-types';
 
 @Injectable()
 export class BackendService {
+  private regional: DocumentData = { name: 'No Regional Set', id: 'no-regional' };
   private createUser = firebase.functions().httpsCallable('registerUser');
-  private db_ref = this.db.collection('' + environment.year).doc('static-regional');
-  private pit_scout = this.db_ref.collection('pit');
-  private match_scout = this.db_ref.collection('match');
+  private db_ref = this.db.collection('' + environment.year).ref;
+  private reg_ref = this.db_ref.doc('no-reg');
+  private pit_scout = this.reg_ref.collection('pit');
+  private match_scout = this.reg_ref.collection('match');
 
   constructor(private db: AngularFirestore, private auth: AngularFireAuth, private storage: AngularFireStorage) {
-    // this.auth.authState.subscribe((user: User) => {
-    //   this.user = user;
-    // }, (error) => {
-    //   console.log('Error in authState', error);
-    // });
+    if (localStorage.getItem('cur_regional')) {
+      try {
+        const reg_info = JSON.parse(localStorage.getItem('cur_regional')); // This will throw an error if cur_regional is not valid json.
+        if (reg_info) {
+          this.setCurRegional(reg_info);
+        } else {
+          this.setCurRegional({ name: 'No Regional Set', id: 'no-regional' });
+        }
+      } catch {
+        this.setCurRegional({ name: 'No Regional Set', id: 'no-regional' });
+      }
+    }
   }
 
   public register(user): Promise<HttpsCallableResult> {
     return this.createUser(user);
   }
 
-  public login(user): Promise<UserCredential> {
-    return this.auth.auth.signInAndRetrieveDataWithEmailAndPassword(user.email, user.password);
+  public login(data): Promise<UserCredential> {
+    return this.auth.auth.signInAndRetrieveDataWithEmailAndPassword(data.email, data.password).then((user: UserCredential) => {
+      this.setCurRegional({id: data.regional});
+      return user;
+    });
   }
 
   public logout(): void {
     this.auth.auth.signOut();
+    localStorage.removeItem('cur_regional');
   }
 
   public getUser(): Observable<User> {
     return this.auth.authState;
   }
 
-  public uploadPit(data) {
+  public getRegionals(): CollectionReference {
+    return this.db_ref;
+  }
+
+  public setCurRegional(regional: DocumentData): void {
+    this.db_ref.where('id', '==', regional.id).get().then((res) => {
+      if (!res.empty) {
+        this.reg_ref = res.docs[0].ref;
+        this.pit_scout = this.reg_ref.collection('pit');
+        this.match_scout = this.reg_ref.collection('match');
+
+        this.reg_ref.onSnapshot((reg) => {
+          this.regional = reg.data();
+          localStorage.setItem('cur_regional', JSON.stringify(this.regional));
+        });
+      } else {
+        this.regional = { name: 'No Regional Set', id: 'no-regional' };
+        localStorage.setItem('cur_regional', JSON.stringify(this.regional));
+      }
+    });
+
+  }
+
+  public getCurRegional(): Object {
+    return this.regional;
+  }
+
+  public uploadPit(data): Promise<boolean> {
     // public pit_form = {
     //   team_number: null,
     //   image: null,
     //   drivetrain: '',
     //   comments: '',
     // };
+    if (!this.regional) {
+      return Promise.reject({code: 'regional-not-set', message: 'The current regional has not been set.'});
+    }
 
     const image_name = data.team_number;
     const image_type = /image\/(.*?);base64/g.exec(data.image)[1]; // This gets the image type from the base64 encoded image
-    const file_path = environment.year + '/' + image_name + '.' + image_type; // Something along the lines of /2018/294.jpeg
+    const file_path = `${environment.year}/${this.regional.id}/${image_name}.${image_type}`;
 
     const ref = this.storage.ref(file_path);
 
