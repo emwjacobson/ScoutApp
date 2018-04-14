@@ -17,6 +17,8 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { BackendService } from './services/backend.service';
+import { AuthGuard } from './guards/auth.guard';
+import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,7 @@ import { BackendService } from './services/backend.service';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
+    PitScoutingComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +41,8 @@ import { BackendService } from './services/backend.service';
     AngularFireAuthModule,
   ],
   providers: [
-    BackendService
+    AuthGuard,
+    BackendService,
   ],
   bootstrap: [AppComponent]
 })

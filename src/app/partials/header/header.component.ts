@@ -24,10 +24,7 @@ export class HeaderComponent implements OnInit {
 
   public logout(): void {
     this.backend.logout();
-    // TODO: Remove delay before navigating? Might feel more natural with delay.
-    setTimeout(() => {
-      this.router.navigate(['']);
-    }, 100);
+    this.router.navigate(['']);
   }
 
   public getUser(): User {
