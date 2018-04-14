@@ -25,13 +25,17 @@ export class LoginComponent implements OnInit {
   }
 
   public login() {
-    this.alert.type = 'primary';
-    this.alert.message = 'Attempting to sign in...',
-    this.alert.enabled = true;
+    this.alert = {
+      type: 'primary',
+      message: 'Attempting to sign in...',
+      enabled: true
+    };
     this.backend.login(this.login_form).then((user: UserCredential) => {
-      this.alert.type = 'success';
-      this.alert.message = 'Login Successful, Redirecting...';
-      this.alert.enabled = true;
+      this.alert = {
+        type: 'success',
+        message: 'Login Successful, Redirecting...',
+        enabled: true
+      };
       setTimeout(() => {
         this.router.navigate(['/']);
       }, 1000);

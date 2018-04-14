@@ -8,6 +8,7 @@ export const environment = {
   production: true,
   name: 'PorkaScout',
   version: '0.0.1',
+  year: 2018,
   firebase: {
     apiKey: '<firebase-api-key>',
     authDomain: '<firebase-auth-domain>',

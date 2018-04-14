@@ -6,13 +6,18 @@ import { FirebaseFunctions, HttpsCallableResult } from '@firebase/functions-type
 import firebase from '@firebase/app';
 import '@firebase/functions';
 import { Observable } from 'rxjs/observable';
+import { environment } from '../../environments/environment';
+import { AngularFireStorage } from 'angularfire2/storage';
+import { UploadTaskSnapshot } from '@firebase/storage-types';
 
 @Injectable()
 export class BackendService {
   private createUser = firebase.functions().httpsCallable('registerUser');
-  // private user: User = null;
+  private db_ref = this.db.collection('' + environment.year).doc('static-regional');
+  private pit_scout = this.db_ref.collection('pit');
+  private match_scout = this.db_ref.collection('match');
 
-  constructor(private db: AngularFirestore, private auth: AngularFireAuth) {
+  constructor(private db: AngularFirestore, private auth: AngularFireAuth, private storage: AngularFireStorage) {
     // this.auth.authState.subscribe((user: User) => {
     //   this.user = user;
     // }, (error) => {
@@ -34,5 +39,35 @@ export class BackendService {
 
   public getUser(): Observable<User> {
     return this.auth.authState;
+  }
+
+  public uploadPit(data) {
+    // public pit_form = {
+    //   team_number: null,
+    //   image: null,
+    //   drivetrain: '',
+    //   comments: '',
+    // };
+
+    const image_name = data.team_number;
+    const image_type = /image\/(.*?);base64/g.exec(data.image)[1]; // This gets the image type from the base64 encoded image
+    const file_path = environment.year + '/' + image_name + '.' + image_type; // Something along the lines of /2018/294.jpeg
+
+    const ref = this.storage.ref(file_path);
+
+    // Upload image
+    return ref.putString(data.image, 'data_url').then((snapshot: UploadTaskSnapshot) => {
+      const pit_data = {};
+      pit_data[data.team_number] = {
+        team_number: data.team_number,
+        drivetrain: data.drivetrain,
+        comments: data.comments
+      };
+
+      // Update db
+      return this.pit_scout.add(pit_data).then(() => {
+        return Promise.resolve(true);
+      });
+    });
   }
 }

@@ -1,17 +1,47 @@
 <div class="container" style="position: relative; top: 20px;">
   <div class="col-sm-8 offset-sm-2">
+    <div *ngIf="alert.enabled && alert.type === 'danger'" class="alert alert-danger" role="alert">
+      <h5 class="alert-heading">Error!</h5>
+      <hr>
+      <p class="mb-0">{{ alert.message }}</p>
+    </div>
+    <div *ngIf="alert.enabled && alert.type === 'success'" class="alert alert-success" role="alert">
+      <h5 class="alert-heading">Success!</h5>
+      <hr>
+      <p class="mb-0">{{ alert.message }}</p>
+    </div>
+    <div *ngIf="alert.enabled && alert.type === 'primary'" class="alert alert-primary" role="alert">
+      <p class="mb-0">{{ alert.message }}</p>
+    </div>
+  </div>
+  <div class="col-sm-8 offset-sm-2">
     <div class="card">
       <div class="card-header">
-        Login
+        Pit Scout
       </div>
       <div class="card-body">
-        <form #loginForm="ngForm" (submit)="login()">
+        <form #pitForm="ngForm" (ngSubmit)="submitPit()">
           <div class="form-group">
             <label for="team_number">Team Number</label>
-            <input type="text" class="form-control" id="team_number" required minlength="6" [(ngModel)]="pit_form.team_number" name="team_number">
+            <input type="number" class="form-control" id="team_number" required [(ngModel)]="pit_form.team_number" name="team_number">
+          </div>
+          <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" class="form-control" id="image" (change)="imageChanged($event)" name="image" accept="image/*">
+            <img *ngIf="pit_form.image" [src]="pit_form.image" width="100%">
+          </div>
+          <div class="form-group">
+            <label for="drivetrain">Drivetrain</label>
+            <select type="text" class="form-control" id="drivetrain" required [(ngModel)]="pit_form.drivetrain" name="drivetrain">
+              <option *ngFor="let dt of drivetrains" [value]="dt">{{ dt }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="comments">Comments</label>
+            <textarea class="form-control" id="comments" required [(ngModel)]="pit_form.comments" name="comments"></textarea>
           </div>
           <div class="col-sm-12 text-center">
-            <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Submit</button>
+            <button type="submit" class="btn btn-primary" [disabled]="pitForm.invalid || pit_form.image === null">Submit</button>
           </div>
         </form>
       </div>

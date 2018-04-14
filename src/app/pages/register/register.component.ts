@@ -27,19 +27,25 @@ export class RegisterComponent implements OnInit {
   }
 
   public register() {
-    this.alert.type = 'primary';
-    this.alert.message = 'Attempting to register...';
-    this.alert.enabled = true;
+    this.alert = {
+      type: 'primary',
+      message: 'Attempting to register...',
+      enabled: true
+    };
     if (this.register_form.password !== this.register_form.rpt_password) {
-      this.alert.type = 'danger';
-      this.alert.message = 'Passwords do not match.';
-      this.alert.enabled = true;
+      this.alert = {
+        type: 'danger',
+        message: 'Passwords do not match.',
+        enabled: true
+      }
       return;
     }
     this.backend.register(this.register_form).then((user_info) => {
-      this.alert.type = 'success';
-      this.alert.message = 'Registered Successfully!  Redirecting to login...';
-      this.alert.enabled = true;
+      this.alert = {
+        type: 'success',
+        message: 'Registered Successfully!  Redirecting to login...',
+        enabled: true
+      }
       setTimeout(() => {
         this.router.navigate(['login']);
       }, 2000);
