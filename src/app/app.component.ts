@@ -16,6 +16,8 @@ export class AppComponent {
   public signed_in_pages = [
     { title: 'Pit Scout', url: 'pit' },
     { title: 'Match Scout', url: 'match' },
+    { title: 'Team List', url: 'teamlist' },
+    { title: 'Match Schedule', url: 'schedule' },
     { title: 'Settings', url: 'settings' },
   ];
 

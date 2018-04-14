@@ -1,36 +1,72 @@
-<div class="container" style="position: relative; top: 20px;">
-  <div class="col-sm-6 offset-sm-3">
-    <div *ngIf="alert.enabled && alert.type === 'danger'" class="alert alert-danger" role="alert">
-      <h5 class="alert-heading">Error!</h5>
-      <hr>
-      <p class="mb-0">{{ alert.message }}</p>
-    </div>
-    <div *ngIf="alert.enabled && alert.type === 'success'" class="alert alert-success" role="alert">
-      <h5 class="alert-heading">Success!</h5>
-      <hr>
-      <p class="mb-0">{{ alert.message }}</p>
-    </div>
-    <div *ngIf="alert.enabled && alert.type === 'primary'" class="alert alert-primary" role="alert">
-      <p class="mb-0">{{ alert.message }}</p>
-    </div>
-  </div>
-  <div class="col-sm-6 offset-sm-3">
-    <div class="card">
-      <div class="card-header">
-        Competition Settings
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <div *ngIf="regional_alert.enabled && regional_alert.type === 'danger'" class="alert alert-danger" role="alert">
+        <h5 class="alert-heading">Error!</h5>
+        <hr>
+        <p class="mb-0">{{ regional_alert.message }}</p>
       </div>
-      <div class="card-body">
-        <form #regionalForm="ngForm" (submit)="saveRegional()">
-          <div class="form-group">
-            <label for="regional">Set Regional</label>
-            <select type="text" class="form-control" id="regional" required minlength="3" [(ngModel)]="regional_form.regional" name="regional">
-              <option *ngFor="let reg of regionals" [value]="reg.data().id">{{ reg.data().name }}</option>
-            </select>
-          </div>
-          <div class="col-sm-12 text-center">
-            <button type="submit" class="btn btn-primary" [disabled]="regionalForm.invalid">Save</button>
-          </div>
-        </form>
+      <div *ngIf="regional_alert.enabled && regional_alert.type === 'success'" class="alert alert-success" role="alert">
+        <h5 class="alert-heading">Success!</h5>
+        <hr>
+        <p class="mb-0">{{ regional_alert.message }}</p>
+      </div>
+      <div *ngIf="regional_alert.enabled && regional_alert.type === 'primary'" class="alert alert-primary" role="alert">
+        <p class="mb-0">{{ regional_alert.message }}</p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          Competition Settings
+        </div>
+        <div class="card-body">
+          <form #regionalForm="ngForm" (submit)="saveRegional()">
+            <div class="form-group">
+              <label for="regional">Set Regional</label>
+              <select type="text" class="form-control" id="regional" required minlength="3" [(ngModel)]="regional_form.regional" name="regional">
+                <option *ngFor="let reg of regionals" [value]="reg.data().id">{{ reg.data().name }}</option>
+              </select>
+            </div>
+            <div class="col-sm-12 text-center">
+              <button type="submit" class="btn btn-primary" [disabled]="regionalForm.invalid">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div *ngIf="password_alert.enabled && password_alert.type === 'danger'" class="alert alert-danger" role="alert">
+        <h5 class="alert-heading">Error!</h5>
+        <hr>
+        <p class="mb-0">{{ password_alert.message }}</p>
+      </div>
+      <div *ngIf="password_alert.enabled && password_alert.type === 'success'" class="alert alert-success" role="alert">
+        <h5 class="alert-heading">Success!</h5>
+        <hr>
+        <p class="mb-0">{{ password_alert.message }}</p>
+      </div>
+      <div *ngIf="password_alert.enabled && password_alert.type === 'primary'" class="alert alert-primary" role="alert">
+        <p class="mb-0">{{ password_alert.message }}</p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          Change Password (Not implemented)
+        </div>
+        <div class="card-body">
+          <form #changePasswordForm="ngForm" (submit)="saveSettings()">
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="text" class="form-control" id="password" required minlength="6" [(ngModel)]="password_form.password" name="password">
+            </div>
+            <div class="form-group">
+              <label for="password_rpt">Password Repeat</label>
+              <input type="text" class="form-control" id="password_rpt" required minlength="6" [(ngModel)]="password_form.password_rpt" name="password_rpt">
+            </div>
+            <div class="col-sm-12 text-center">
+              <button type="submit" class="btn btn-primary" [disabled]="changePasswordForm.invalid">Submit</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>

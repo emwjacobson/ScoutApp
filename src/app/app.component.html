@@ -1,4 +1,4 @@
-<app-header (sidebarToggle)="toggleSidebar()"></app-header>
+
 <ng-sidebar-container>
   <ng-sidebar [(opened)]="opened" mode="over" showBackdrop="true" closeOnClickBackdrop="true">
     <div class="sidebar">
@@ -16,6 +16,7 @@
   </ng-sidebar>
 
   <div ng-sidebar-content>
+      <app-header (sidebarToggle)="toggleSidebar()"></app-header>
     <div ng-sidebar-content class="main-content">
       <router-outlet></router-outlet>
     </div>

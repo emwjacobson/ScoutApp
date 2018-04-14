@@ -11,7 +11,16 @@ export class SettingsComponent implements OnInit {
   public regional_form = {
     regional: ''
   };
-  public alert = {
+  public password_form = {
+    password: '',
+    password_rpt: ''
+  };
+  public regional_alert = {
+    enabled: false,
+    type: '',
+    message: ''
+  };
+  public password_alert = {
     enabled: false,
     type: '',
     message: ''
@@ -30,6 +39,11 @@ export class SettingsComponent implements OnInit {
   }
 
   public saveRegional() {
+    this.regional_alert = {
+      enabled: true,
+      type: 'success',
+      message: 'Regional has been changed.'
+    };
     this.backend.setCurRegional({ id: this.regional_form.regional });
   }
 
