@@ -5,6 +5,31 @@
       <app-alert [enabled]="regional_alert.enabled" [type]="regional_alert.type" [message]="regional_alert.message"></app-alert>
       <div class="card">
         <div class="card-header">
+          Manage Users
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">User</th>
+                <th scope="col">Handle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users">
+                <td>Mark</td>
+                <td>@mdo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <app-alert [enabled]="regional_alert.enabled" [type]="regional_alert.type" [message]="regional_alert.message"></app-alert>
+      <div class="card">
+        <div class="card-header">
           Add Regional
         </div>
         <div class="card-body">

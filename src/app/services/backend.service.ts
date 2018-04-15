@@ -18,7 +18,8 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class BackendService {
   private regional: DocumentData = { name: 'No Regional Set', id: 'no-regional' };
-  private createUser = firebase.functions().httpsCallable('registerUser');
+  private createUserFunc = firebase.functions().httpsCallable('registerUser');
+  private getLimitedUsersFunc = firebase.functions().httpsCallable('getLimitedUsers');
   private db_ref = this.db.collection('' + environment.year).ref;
   private reg_ref = this.db_ref.doc('no-reg');
   private pit_scout = this.reg_ref.collection('pit');
@@ -40,7 +41,7 @@ export class BackendService {
   }
 
   public register(user): Promise<HttpsCallableResult> {
-    return this.createUser(user);
+    return this.createUserFunc(user);
   }
 
   public login(data): Promise<UserCredential> {
@@ -61,6 +62,10 @@ export class BackendService {
 
   public getUser(): Observable<User> {
     return this.auth.authState;
+  }
+
+  public getLimitedUsers() {
+    return this.getLimitedUsersFunc();
   }
 
   public getUserClaims(): Observable<any> {

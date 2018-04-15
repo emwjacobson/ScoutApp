@@ -16,6 +16,12 @@ export class AdminComponent implements OnInit {
   public regional_form = {
     regional: ''
   };
+  public users = [];
+  public user_alert = {
+    enabled: false,
+    type: '',
+    message: ''
+  };
 
   constructor(private backend: BackendService) { }
 
@@ -27,6 +33,10 @@ export class AdminComponent implements OnInit {
     this.backend.getAllRegionals().subscribe((res) => {
       this.regionals = res.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
     });
+  }
+
+  public getUsers() {
+    //
   }
 
   public addRegional() {

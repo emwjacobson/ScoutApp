@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   public getRegionals() {
     this.backend.getRegionals().onSnapshot((data) => {
-      this.regionals = data.docs;
+      this.regionals = data.docs.sort((a, b) => (a.data().name > b.data().name) ? 1 : ((b.data().name > a.data().name) ? -1 : 0));
     });
   }
 

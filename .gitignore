@@ -6,6 +6,9 @@
 /functions/src/settings.ts
 /functions/lib
 
+# Firebase Stuff
+firebase-debug.log
+
 # compiled output
 /dist
 /dist-server

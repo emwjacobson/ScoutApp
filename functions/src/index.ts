@@ -41,22 +41,22 @@ export const registerUser = functions.https.onCall((data, context) => {
         displayName: data.displayName,
     }
 
-    const user_claims = {
-        admin: false,
-        // TODO: Change limited to true to allow for limited users.
-        limited: false
-    }
-
     return admin.auth().createUser(user_data).then((user_record: UserRecord) => {
-        return admin.auth().setCustomUserClaims(user_record.uid, user_claims).then(() => {
+        // return admin.auth().setCustomUserClaims(user_record.uid, user_claims).then(() => {
+        const user_db_data = {
+            uid: user_record.uid,
+            admin: false,
+            limited: true
+        }
+        return admin.firestore().collection('users').add(user_db_data).then(() => {
             // TODO: Dont return user_record? Not really needed on frontend and will trim down on data transfer.
             return { success: true };
         }).catch((error) => {
             switch (error.code) {
-                case 'auth/invalid-claims':
-                    throw new HttpsError('invalid-argument', 'Attempted to add invalid claim to user.');
-                case 'auth/reserved-claims':
-                    throw new HttpsError('invalid-argument', 'Attempted to use reserved claim value.');
+                // case 'auth/invalid-claims':
+                //     throw new HttpsError('invalid-argument', 'Attempted to add invalid claim to user.');
+                // case 'auth/reserved-claims':
+                //     throw new HttpsError('invalid-argument', 'Attempted to use reserved claim value.');
                 default:
                     throw new HttpsError('internal', error.message);
             }
@@ -115,3 +115,13 @@ export const updateUser = functions.https.onCall((data, context) => {
     });
 
 })
+
+export const getLimitedUsers = functions.https.onCall((data, context) => {
+    admin.auth().verifyIdToken(context.instanceIdToken).then((claims) => {
+        if (!claims.admin) {
+            throw new HttpsError('permission-denied', 'You\'re not allowed to change user claims.');
+        }
+        let limited_users = [];
+        let nextPageToken = null;
+    });
+});
