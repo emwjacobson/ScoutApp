@@ -21,6 +21,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { AlertComponent } from './partials/alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { AdminComponent } from './pages/admin/admin.component';
     PitScoutingComponent,
     SettingsComponent,
     AdminComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,

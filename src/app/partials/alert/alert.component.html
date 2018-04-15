@@ -1,0 +1,15 @@
+<ng-container *ngIf="enabled" [ngSwitch]="type">
+  <div *ngSwitchCase="'danger'" class="alert alert-danger" role="alert">
+    <h5 class="alert-heading">Error!</h5>
+    <hr>
+    <p class="mb-0">{{ message }}</p>
+  </div>
+  <div *ngSwitchCase="'success'" class="alert alert-success" role="alert">
+    <h5 class="alert-heading">Success!</h5>
+    <hr>
+    <p class="mb-0">{{ message }}</p>
+  </div>
+  <div *ngSwitchCase="'primary'" class="alert alert-primary" role="alert">
+    <p class="mb-0">{{ message }}</p>
+  </div>
+</ng-container>

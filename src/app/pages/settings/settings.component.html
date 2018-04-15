@@ -1,19 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-6">
-      <div *ngIf="regional_alert.enabled && regional_alert.type === 'danger'" class="alert alert-danger" role="alert">
-        <h5 class="alert-heading">Error!</h5>
-        <hr>
-        <p class="mb-0">{{ regional_alert.message }}</p>
-      </div>
-      <div *ngIf="regional_alert.enabled && regional_alert.type === 'success'" class="alert alert-success" role="alert">
-        <h5 class="alert-heading">Success!</h5>
-        <hr>
-        <p class="mb-0">{{ regional_alert.message }}</p>
-      </div>
-      <div *ngIf="regional_alert.enabled && regional_alert.type === 'primary'" class="alert alert-primary" role="alert">
-        <p class="mb-0">{{ regional_alert.message }}</p>
-      </div>
+      <app-alert [enabled]="regional_alert.enabled" [type]="regional_alert.type" [message]="regional_alert.message"></app-alert>
       <div class="card">
         <div class="card-header">
           Competition Settings
@@ -35,19 +23,7 @@
     </div>
 
     <div class="col-sm-6">
-      <div *ngIf="password_alert.enabled && password_alert.type === 'danger'" class="alert alert-danger" role="alert">
-        <h5 class="alert-heading">Error!</h5>
-        <hr>
-        <p class="mb-0">{{ password_alert.message }}</p>
-      </div>
-      <div *ngIf="password_alert.enabled && password_alert.type === 'success'" class="alert alert-success" role="alert">
-        <h5 class="alert-heading">Success!</h5>
-        <hr>
-        <p class="mb-0">{{ password_alert.message }}</p>
-      </div>
-      <div *ngIf="password_alert.enabled && password_alert.type === 'primary'" class="alert alert-primary" role="alert">
-        <p class="mb-0">{{ password_alert.message }}</p>
-      </div>
+      <app-alert [enabled]="password_alert.enabled" [type]="password_alert.type" [message]="password_alert.message"></app-alert>
       <div class="card">
         <div class="card-header">
           Change Password (Not implemented)

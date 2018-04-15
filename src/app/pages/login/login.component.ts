@@ -12,8 +12,8 @@ export class LoginComponent implements OnInit {
   public regionals = [];
   public alert = {
     enabled: false,
-    type: '',
-    message: ''
+    type: 'danger',
+    message: '123'
   };
   public login_form = {
     email: '',
@@ -35,9 +35,9 @@ export class LoginComponent implements OnInit {
 
   public login() {
     this.alert = {
+      enabled: true,
       type: 'primary',
-      message: 'Attempting to sign in...',
-      enabled: true
+      message: 'Attempting to sign in...'
     };
 
     this.backend.login(this.login_form).then((user: UserCredential) => {

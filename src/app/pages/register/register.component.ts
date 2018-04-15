@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
         type: 'danger',
         message: 'Passwords do not match.',
         enabled: true
-      }
+      };
       return;
     }
     this.backend.register(this.register_form).then((user_info) => {
@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
         type: 'success',
         message: 'Registered Successfully!  Redirecting to login...',
         enabled: true
-      }
+      };
       setTimeout(() => {
         this.router.navigate(['login']);
       }, 2000);
