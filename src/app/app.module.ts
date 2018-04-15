@@ -1,6 +1,7 @@
 import { environment } from '../environments/environment';
 // Modules
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { SidebarModule } from 'ng-sidebar';
@@ -37,6 +38,7 @@ import { AlertComponent } from './partials/alert/alert.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     SidebarModule.forRoot(),

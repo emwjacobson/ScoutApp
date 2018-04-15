@@ -16,6 +16,10 @@ export const environment = {
     projectId: '<firebase-project-id>',
     storageBucket: '<firebase-storage-bucket>',
     messagingSenderId: '<firebase-sender-id>'
+  },
+  tba: {
+    api: '<tba-api-key>',
+    endpoint: 'https://www.thebluealliance.com/api/v3/'
   }
 };
 

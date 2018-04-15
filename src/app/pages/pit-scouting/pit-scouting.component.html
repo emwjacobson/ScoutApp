@@ -1,5 +1,6 @@
 <div class="container">
   <div class="col-sm-8 offset-sm-2">
+    <app-alert *ngIf="getRegional().id === 'no-regional'" enabled="true" type="danger" message="You don't have a regional set, please go to settings to set one before submitting a pit scout."></app-alert>
     <app-alert [enabled]="alert.enabled" [type]="alert.type" [message]="alert.message"></app-alert>
   </div>
   <div class="col-sm-8 offset-sm-2">

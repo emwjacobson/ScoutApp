@@ -85,9 +85,9 @@ export const registerUser = functions.https.onCall((data, context) => {
 
 export const updateUser = functions.https.onCall((data, context) => {
     admin.auth().verifyIdToken(context.instanceIdToken).then((claims) => {
-        // if (!claims.admin) {
-        //     throw new HttpsError('permission-denied', 'You\'re not allowed to change user claims.');
-        // }
+        if (!claims.admin) {
+            throw new HttpsError('permission-denied', 'You\'re not allowed to change user claims.');
+        }
 
         // data = {
         //     email: 'email',

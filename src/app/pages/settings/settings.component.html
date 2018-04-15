@@ -26,10 +26,10 @@
       <app-alert [enabled]="password_alert.enabled" [type]="password_alert.type" [message]="password_alert.message"></app-alert>
       <div class="card">
         <div class="card-header">
-          Change Password (Not implemented)
+          Change Password
         </div>
         <div class="card-body">
-          <form #changePasswordForm="ngForm" (submit)="saveSettings()">
+          <form #changePasswordForm="ngForm" (submit)="changePassword()">
             <div class="form-group">
               <label for="password">Password</label>
               <input type="text" class="form-control" id="password" required minlength="6" [(ngModel)]="password_form.password" name="password">

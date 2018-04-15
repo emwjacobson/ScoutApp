@@ -13,6 +13,7 @@ import { UploadTaskSnapshot } from '@firebase/storage-types';
 import { QuerySnapshot, DocumentReference, CollectionReference, DocumentSnapshot, DocumentData } from '@firebase/firestore-types';
 import * as md5 from 'md5';
 import { base64Decode } from '@firebase/util';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class BackendService {
@@ -23,7 +24,7 @@ export class BackendService {
   private pit_scout = this.reg_ref.collection('pit');
   private match_scout = this.reg_ref.collection('match');
 
-  constructor(private db: AngularFirestore, private auth: AngularFireAuth, private storage: AngularFireStorage) {
+  constructor(private db: AngularFirestore, private auth: AngularFireAuth, private storage: AngularFireStorage, private http: HttpClient) {
     if (localStorage.getItem('cur_regional')) {
       try {
         const reg_info = JSON.parse(localStorage.getItem('cur_regional')); // This will throw an error if cur_regional is not valid json.
@@ -49,6 +50,10 @@ export class BackendService {
     });
   }
 
+  public changePassword(password: string): Promise<any> {
+    return this.auth.auth.currentUser.updatePassword(password);
+  }
+
   public logout(): void {
     this.auth.auth.signOut();
     localStorage.removeItem('cur_regional');
@@ -60,6 +65,9 @@ export class BackendService {
 
   public getUserClaims(): Observable<any> {
     return this.auth.idToken.switchMap((token: string) => {
+      if (!token) {
+        return Observable.of(false);
+      }
       const payload = JSON.parse(base64Decode(token.split('.')[1]));
       return Observable.of(payload);
     });
@@ -67,6 +75,15 @@ export class BackendService {
 
   public getRegionals(): CollectionReference {
     return this.db_ref;
+  }
+
+  public getAllRegionals(): Observable<any[]> {
+    // Request to TBA api to get regionals.
+    const headers = {
+      accept: 'application/json',
+      'X-TBA-Auth-Key': environment.tba.api
+    };
+    return this.http.get<any[]>(environment.tba.endpoint + 'events/' + environment.year + '/simple', { headers: headers });
   }
 
   public setCurRegional(regional: DocumentData): void {
@@ -88,8 +105,16 @@ export class BackendService {
 
   }
 
-  public getCurRegional(): Object {
+  public getCurRegional(): DocumentData {
     return this.regional;
+  }
+
+  public addRegional(reg: any) {
+    const data = {
+      id: reg.key,
+      name: reg.name
+    };
+    return this.db_ref.add(data);
   }
 
   public uploadPit(data): Promise<boolean> {

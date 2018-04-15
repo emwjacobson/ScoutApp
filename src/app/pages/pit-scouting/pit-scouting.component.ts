@@ -27,6 +27,10 @@ export class PitScoutingComponent implements OnInit {
   ngOnInit() {
   }
 
+  public getRegional() {
+    return this.backend.getCurRegional();
+  }
+
   public imageChanged(event) {
     this.file_reader.onload = () => {
       this.pit_form.image = this.file_reader.result;
@@ -39,6 +43,14 @@ export class PitScoutingComponent implements OnInit {
   }
 
   public submitPit() {
+    if (this.getRegional().id === 'no-regional') {
+      this.alert = {
+        enabled: true,
+        type: 'danger',
+        message: 'Trying to submit without a regional set...'
+      };
+      return;
+    }
     this.alert = {
       enabled: true,
       type: 'primary',

@@ -41,7 +41,11 @@ export class AppComponent {
 
   public getUserClaims(): void {
     this.backend.getUserClaims().subscribe((claims) => {
-      this.user_claims = claims;
+      if (claims) {
+        this.user_claims = claims;
+      } else {
+        this.user_claims = {};
+      }
     });
   }
 

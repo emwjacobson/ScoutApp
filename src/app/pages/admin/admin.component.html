@@ -1,12 +1,27 @@
 <div class="container">
+  <div class="row">
 
-    <div class="card">
-      <div class="card-header">
-        Admin Things
-      </div>
-      <div class="card-body">
-        <p class="card-text">Ill do stuff here later.</p>
+    <div class="col-sm-6">
+      <app-alert [enabled]="regional_alert.enabled" [type]="regional_alert.type" [message]="regional_alert.message"></app-alert>
+      <div class="card">
+        <div class="card-header">
+          Add Regional
+        </div>
+        <div class="card-body">
+          <form #addRegionalForm="ngForm" (submit)="addRegional()">
+            <div class="form-group">
+              <label for="regional">Set Regional</label>
+              <select type="text" class="form-control" id="regional" required minlength="3" [(ngModel)]="regional_form.regional" name="regional">
+                <option *ngFor="let reg of regionals" [value]="reg.key">{{ reg.name }}</option>
+              </select>
+            </div>
+            <div class="col-sm-12 text-center">
+              <button type="submit" class="btn btn-primary" [disabled]="addRegionalForm.invalid">Save</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  
+
   </div>
+</div>
