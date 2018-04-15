@@ -32,11 +32,11 @@
           <form #changePasswordForm="ngForm" (submit)="changePassword()">
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="text" class="form-control" id="password" required minlength="6" [(ngModel)]="password_form.password" name="password">
+              <input type="password" class="form-control" id="password" required minlength="6" [(ngModel)]="password_form.password" name="password">
             </div>
             <div class="form-group">
               <label for="password_rpt">Password Repeat</label>
-              <input type="text" class="form-control" id="password_rpt" required minlength="6" [(ngModel)]="password_form.password_rpt" name="password_rpt">
+              <input type="password" class="form-control" id="password_rpt" required minlength="6" [(ngModel)]="password_form.password_rpt" name="password_rpt">
             </div>
             <div class="col-sm-12 text-center">
               <button type="submit" class="btn btn-primary" [disabled]="changePasswordForm.invalid">Submit</button>

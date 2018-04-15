@@ -83,6 +83,7 @@ export const registerUser = functions.https.onCall((data, context) => {
     });
 });
 
+// This function is unfinished, do not use it until it is finished.
 export const updateUser = functions.https.onCall((data, context) => {
     admin.auth().verifyIdToken(context.instanceIdToken).then((claims) => {
         if (!claims.admin) {
