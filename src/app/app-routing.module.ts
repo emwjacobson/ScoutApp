@@ -6,6 +6,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { AdminComponent } from './pages/admin/admin.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
     children: [
       { path: 'pit', component: PitScoutingComponent },
       { path: 'settings', component: SettingsComponent },
+      { path: 'admin', component: AdminComponent },
       // { path: 'match', component: MatchScoutingComponent },
       // { path: 'edit-match-scouting', component: EditMatchScoutingComponent },
       // { path: 'match-schedule', component: MatchScheduleComponent },

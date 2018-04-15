@@ -20,6 +20,7 @@ import { BackendService } from './services/backend.service';
 import { AuthGuard } from './guards/auth.guard';
 import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { AdminComponent } from './pages/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
     RegisterComponent,
     PitScoutingComponent,
     SettingsComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,

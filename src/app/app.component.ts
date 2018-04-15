@@ -10,7 +10,7 @@ import { User } from '@firebase/auth-types';
 })
 export class AppComponent {
   public title = 'app';
-  public opened = true;
+  public opened = false;
   public public_pages = [
     { title: 'Home', url: '/' },
     { title: 'About', url: 'about' }
