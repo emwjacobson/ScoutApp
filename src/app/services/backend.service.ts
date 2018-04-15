@@ -5,12 +5,14 @@ import { UserCredential, User } from '@firebase/auth-types';
 import { FirebaseFunctions, HttpsCallableResult } from '@firebase/functions-types';
 import firebase from '@firebase/app';
 import '@firebase/functions';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
+import { switchMap  } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { UploadTaskSnapshot } from '@firebase/storage-types';
 import { QuerySnapshot, DocumentReference, CollectionReference, DocumentSnapshot, DocumentData } from '@firebase/firestore-types';
 import * as md5 from 'md5';
+import { base64Decode } from '@firebase/util';
 
 @Injectable()
 export class BackendService {
@@ -56,13 +58,20 @@ export class BackendService {
     return this.auth.authState;
   }
 
+  public getUserClaims(): Observable<any> {
+    return this.auth.idToken.switchMap((token: string) => {
+      const payload = JSON.parse(base64Decode(token.split('.')[1]));
+      return Observable.of(payload);
+    });
+  }
+
   public getRegionals(): CollectionReference {
     return this.db_ref;
   }
 
   public setCurRegional(regional: DocumentData): void {
     this.db_ref.where('id', '==', regional.id).get().then((res) => {
-      if (!res.empty) {
+      if (!res.empty) { // If the regional exists in the database...
         this.reg_ref = res.docs[0].ref;
         this.pit_scout = this.reg_ref.collection('pit');
         this.match_scout = this.reg_ref.collection('match');
@@ -71,7 +80,7 @@ export class BackendService {
           this.regional = reg.data();
           localStorage.setItem('cur_regional', JSON.stringify(this.regional));
         });
-      } else {
+      } else { // If it doesnt exist...
         this.regional = { name: 'No Regional Set', id: 'no-regional' };
         localStorage.setItem('cur_regional', JSON.stringify(this.regional));
       }

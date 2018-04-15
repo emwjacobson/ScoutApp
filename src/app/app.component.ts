@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { BackendService } from './services/backend.service';
+import { Observable } from 'rxjs/Observable';
+import { User } from '@firebase/auth-types';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,7 @@ import { BackendService } from './services/backend.service';
 })
 export class AppComponent {
   public title = 'app';
-  public opened = false;
+  public opened = true;
   public public_pages = [
     { title: 'Home', url: '/' },
     { title: 'About', url: 'about' }
@@ -20,15 +22,27 @@ export class AppComponent {
     { title: 'Match Schedule', url: 'schedule' },
     { title: 'Settings', url: 'settings' },
   ];
+  public admin_pages = [
+    { title: 'Admin Settings', url: 'admin' },
+  ];
+  public user_claims = {};
 
-  constructor(private backend: BackendService) {}
+  constructor(private backend: BackendService) {
+    this.getUserClaims();
+  }
 
-  public toggleSidebar() {
+  public toggleSidebar(): void {
     this.opened = !this.opened;
   }
 
-  public getUser() {
+  public getUser(): Observable<User> {
     return this.backend.getUser();
+  }
+
+  public getUserClaims(): void {
+    this.backend.getUserClaims().subscribe((claims) => {
+      this.user_claims = claims;
+    });
   }
 
 }

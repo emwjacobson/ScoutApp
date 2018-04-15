@@ -6,10 +6,16 @@
         <li *ngFor="let page of public_pages">
           <a [routerLink]="page.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ page.title }}</a>
         </li>
-        <ng-container *ngIf="(getUser() | async) as user" >
-            <li *ngFor="let page of signed_in_pages">
+        <ng-container *ngIf="(getUser() | async) as user">
+          <li *ngFor="let page of signed_in_pages">
+            <a [routerLink]="page.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ page.title }}</a>
+          </li>
+          <!-- <ng-container *ngIf="user_claims.admin"> TODO: Change to this before production!!!! --> 
+          <ng-container *ngIf="!user_claims.admin">
+            <li *ngFor="let page of admin_pages">
               <a [routerLink]="page.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ page.title }}</a>
             </li>
+            </ng-container>
         </ng-container>
       </ul>
     </div>
