@@ -44,11 +44,12 @@ export const registerUser = functions.https.onCall((data, context) => {
     return admin.auth().createUser(user_data).then((user_record: UserRecord) => {
         // return admin.auth().setCustomUserClaims(user_record.uid, user_claims).then(() => {
         const user_db_data = {
+            // TODO: Maybe also include email?
             uid: user_record.uid,
             admin: false,
             limited: true
         }
-        return admin.firestore().collection('users').add(user_db_data).then(() => {
+        return admin.firestore().collection('users').doc(user_record.uid).set(user_db_data).then(() => {
             // TODO: Dont return user_record? Not really needed on frontend and will trim down on data transfer.
             return { success: true };
         }).catch((error) => {
@@ -85,43 +86,9 @@ export const registerUser = functions.https.onCall((data, context) => {
 
 // This function is unfinished, do not use it until it is finished.
 export const updateUser = functions.https.onCall((data, context) => {
-    admin.auth().verifyIdToken(context.instanceIdToken).then((claims) => {
-        if (!claims.admin) {
-            throw new HttpsError('permission-denied', 'You\'re not allowed to change user claims.');
-        }
-
-        // data = {
-        //     email: 'email',
-        //     admin?: true,
-        //     limited?: false
-        // }
-        if (typeof data.email !== 'string' || data.email === '') {
-            throw new HttpsError('invalid-argument', 'Invalid email address entered.');
-        }
-        if (data.admin && typeof data.admin !== 'boolean') {
-            throw new HttpsError('invalid-argument', 'Invalid admin boolean entered.');
-        }
-        if (data.limited && typeof data.limited !== 'boolean') {
-            throw new HttpsError('invalid-argument', 'Invalid limited boolean entered.');
-        }
-
-        const update_data = {
-            email: data.email,
-            admin: data.admin,
-            limited: data.limited
-        };
-    }).catch((error) => {
-        throw new HttpsError('internal', 'Internal Error has occured.');
-    });
-
+    //
 })
 
 export const getLimitedUsers = functions.https.onCall((data, context) => {
-    admin.auth().verifyIdToken(context.instanceIdToken).then((claims) => {
-        if (!claims.admin) {
-            throw new HttpsError('permission-denied', 'You\'re not allowed to change user claims.');
-        }
-        let limited_users = [];
-        let nextPageToken = null;
-    });
+    //
 });

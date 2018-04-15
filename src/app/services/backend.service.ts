@@ -10,7 +10,7 @@ import { switchMap  } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { UploadTaskSnapshot } from '@firebase/storage-types';
-import { QuerySnapshot, DocumentReference, CollectionReference, DocumentSnapshot, DocumentData } from '@firebase/firestore-types';
+import { QuerySnapshot, DocumentReference, CollectionReference, DocumentSnapshot, DocumentData, Query } from '@firebase/firestore-types';
 import * as md5 from 'md5';
 import { base64Decode } from '@firebase/util';
 import { HttpClient } from '@angular/common/http';
@@ -20,8 +20,9 @@ export class BackendService {
   private regional: DocumentData = { name: 'No Regional Set', id: 'no-regional' };
   private createUserFunc = firebase.functions().httpsCallable('registerUser');
   private getLimitedUsersFunc = firebase.functions().httpsCallable('getLimitedUsers');
-  private db_ref = this.db.collection('' + environment.year).ref;
-  private reg_ref = this.db_ref.doc('no-reg');
+  private users_ref = this.db.collection('users').ref;
+  private year_ref = this.db.collection('' + environment.year).ref;
+  private reg_ref = this.year_ref.doc(this.regional.id);
   private pit_scout = this.reg_ref.collection('pit');
   private match_scout = this.reg_ref.collection('match');
 
@@ -68,18 +69,17 @@ export class BackendService {
     return this.getLimitedUsersFunc();
   }
 
-  public getUserClaims(): Observable<any> {
-    return this.auth.idToken.switchMap((token: string) => {
-      if (!token) {
-        return Observable.of(false);
+  public getCurrentUserData(): Observable<Query> {
+    return this.auth.authState.switchMap((user: User) => {
+      if (!user) {
+        return Observable.of(null);
       }
-      const payload = JSON.parse(base64Decode(token.split('.')[1]));
-      return Observable.of(payload);
+      return Observable.of(this.users_ref.where('uid', '==', user.uid));
     });
   }
 
   public getRegionals(): CollectionReference {
-    return this.db_ref;
+    return this.year_ref;
   }
 
   public getAllRegionals(): Observable<any[]> {
@@ -92,7 +92,7 @@ export class BackendService {
   }
 
   public setCurRegional(regional: DocumentData): void {
-    this.db_ref.where('id', '==', regional.id).get().then((res) => {
+    this.year_ref.where('id', '==', regional.id).get().then((res) => {
       if (!res.empty) { // If the regional exists in the database...
         this.reg_ref = res.docs[0].ref;
         this.pit_scout = this.reg_ref.collection('pit');
@@ -119,7 +119,7 @@ export class BackendService {
       id: reg.key,
       name: reg.name
     };
-    return this.db_ref.add(data);
+    return this.year_ref.add(data);
   }
 
   public uploadPit(data): Promise<boolean> {

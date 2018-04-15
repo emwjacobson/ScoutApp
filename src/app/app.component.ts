@@ -25,10 +25,10 @@ export class AppComponent {
   public admin_pages = [
     { title: 'Admin Settings', url: 'admin' },
   ];
-  public user_claims = {};
+  public user_data = {};
 
   constructor(private backend: BackendService) {
-    this.getUserClaims();
+    this.getUserData();
   }
 
   public toggleSidebar(): void {
@@ -39,13 +39,18 @@ export class AppComponent {
     return this.backend.getUser();
   }
 
-  public getUserClaims(): void {
-    this.backend.getUserClaims().subscribe((claims) => {
-      if (claims) {
-        this.user_claims = claims;
-      } else {
-        this.user_claims = {};
+  public getUserData(): void {
+    this.backend.getCurrentUserData().subscribe((query) => {
+      if (!query) {
+        this.user_data = {};
+        return;
       }
+      query.onSnapshot((snap) => {
+        if (snap.docs.length === 0) {
+          this.user_data = {};
+        }
+        this.user_data = snap.docs[0].data();
+      });
     });
   }
 
