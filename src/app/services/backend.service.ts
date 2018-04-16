@@ -19,7 +19,8 @@ import { HttpClient } from '@angular/common/http';
 export class BackendService {
   private regional: DocumentData = { name: 'No Regional Set', id: 'no-regional' };
   private createUserFunc = firebase.functions().httpsCallable('registerUser');
-  private getLimitedUsersFunc = firebase.functions().httpsCallable('getLimitedUsers');
+  private acceptUserFunc = firebase.functions().httpsCallable('acceptUser');
+  private denyUserFunc = firebase.functions().httpsCallable('denyUser');
   private users_ref = this.db.collection('users').ref;
   private year_ref = this.db.collection('' + environment.year).ref;
   private reg_ref = this.year_ref.doc(this.regional.id);
@@ -66,7 +67,7 @@ export class BackendService {
   }
 
   public getLimitedUsers() {
-    return this.getLimitedUsersFunc();
+    return this.users_ref.where('limited', '==', true).limit(10);
   }
 
   public getCurrentUserData(): Observable<Query> {
@@ -77,6 +78,23 @@ export class BackendService {
       return Observable.of(this.users_ref.where('uid', '==', user.uid));
     });
   }
+
+  public acceptUser(user_id: string): Promise<HttpsCallableResult> {
+    const data = {
+      uid: user_id
+    };
+    return this.acceptUserFunc(data);
+  }
+
+  public denyUser(user_id: string) {
+    const data = {
+      uid: user_id
+    };
+    return this.denyUserFunc(data);
+  }
+
+
+
 
   public getRegionals(): CollectionReference {
     return this.year_ref;

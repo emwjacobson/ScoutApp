@@ -20,7 +20,7 @@
           </div>
           <div class="form-group">
             <label for="regional">Regional</label>
-            <select class="form-control" id="regional" required [(ngModel)]="login_form.regional" name="regional">
+            <select class="form-control" id="regional" [(ngModel)]="login_form.regional" name="regional">
               <option *ngFor="let reg of regionals" [value]="reg.data().id">{{ reg.data().name }}</option>
             </select>
           </div>

@@ -25,7 +25,7 @@ export class AppComponent {
   public admin_pages = [
     { title: 'Admin Settings', url: 'admin' },
   ];
-  public user_data = {};
+  public user_data: any = null;
 
   constructor(private backend: BackendService) {
     this.getUserData();
@@ -42,14 +42,21 @@ export class AppComponent {
   public getUserData(): void {
     this.backend.getCurrentUserData().subscribe((query) => {
       if (!query) {
-        this.user_data = {};
+        this.user_data = null;
         return;
       }
+      // This throws an error when a user logs out, as the currentUserUpdate triggers, causing query.onSnapshot to be called,
+      // and an unauthenticated user doesnt have permission to query.
       query.onSnapshot((snap) => {
-        if (snap.docs.length === 0) {
-          this.user_data = {};
+        if (!(snap.docs) || snap.empty) {
+          this.user_data = null;
+          return;
         }
         this.user_data = snap.docs[0].data();
+      }, (error) => {
+        this.user_data = null;
+        console.log('Userdata Query Error:');
+        console.log(error);
       });
     });
   }

@@ -2,23 +2,28 @@
   <div class="row">
 
     <div class="col-sm-6">
-      <app-alert [enabled]="regional_alert.enabled" [type]="regional_alert.type" [message]="regional_alert.message"></app-alert>
+      <app-alert [enabled]="limited_user_alert.enabled" [type]="limited_user_alert.type" [message]="limited_user_alert.message"></app-alert>
       <div class="card">
         <div class="card-header">
-          Manage Users
+          Limited Users
         </div>
         <div class="card-body">
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th scope="col">User</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Name</th>
+                <th scope="col">Options</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of users">
-                <td>Mark</td>
-                <td>@mdo</td>
+              <tr *ngFor="let user of limited_users">
+                <td>{{ user.displayName }} ({{ user.email }})</td>
+                <td>
+                  <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-success" (click)="acceptUser(user.uid)">Accept</button>
+                    <button type="button" class="btn btn-danger" (click)="denyUser(user.uid)">Deny</button>
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -35,7 +40,7 @@
         <div class="card-body">
           <form #addRegionalForm="ngForm" (submit)="addRegional()">
             <div class="form-group">
-              <label for="regional">Set Regional</label>
+              <label for="regional">Regional</label>
               <select type="text" class="form-control" id="regional" required minlength="3" [(ngModel)]="regional_form.regional" name="regional">
                 <option *ngFor="let reg of regionals" [value]="reg.key">{{ reg.name }}</option>
               </select>

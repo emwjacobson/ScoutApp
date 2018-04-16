@@ -5,6 +5,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Installation
 
 Run `npm install` in the root folder, and in the /functions folder.
+Change `2018` to the current year in `firestore.rules`.
 
 ## Development server
 
