@@ -85,6 +85,33 @@ export const registerUser = functions.https.onCall((data, context) => {
     });
 });
 
+// export const acceptUser = functions.https.onCall((data, context) => {
+//     // Check if requesting user is an admin.
+//     return admin.firestore().collection('users').where('uid', '==', context.auth.uid).get().then((admin_snap) => {
+//         if (!admin_snap || admin_snap.empty) {
+//             throw new HttpsError('not-found', 'User not found in database.');
+//         }
+
+//         if (!admin_snap.docs[0].data().admin) {
+//             throw new HttpsError('permission-denied', 'You\'re not allowed to preform this action.');
+//         }
+
+//         // Check if accepted user exists
+//         return admin.firestore().collection('users').where('uid', '==', data.uid).get().then((user_snap) => {
+//             if (!user_snap || user_snap.empty) {
+//                 throw new HttpsError('not-found', 'User not found in database.');
+//             }
+
+//             // User exists, so set limited to false
+//             return admin.firestore().collection('users').doc(user_snap.docs[0].data().uid).update({ limited: false }).then(() => {
+//                 return { success: true };
+//             });
+//         })
+//     }).catch((error) => {
+//         throw new HttpsError('internal', error.message);
+//     });
+// });
+
 export const acceptUser = functions.https.onCall((data, context) => {
     // Check if requesting user is an admin.
     return admin.firestore().collection('users').where('uid', '==', context.auth.uid).get().then((admin_snap) => {
@@ -97,21 +124,53 @@ export const acceptUser = functions.https.onCall((data, context) => {
         }
 
         // Check if accepted user exists
-        return admin.firestore().collection('users').where('uid', '==', data.uid).get().then((user_snap) => {
-            if (!user_snap || user_snap.empty) {
-                throw new HttpsError('not-found', 'User not found in database.');
-            }
+        return admin.firestore().collection('users').where('uid', '==', data.uid).get();
+    }).then((user_snap) => {
+        if (!user_snap || user_snap.empty) {
+            throw new HttpsError('not-found', 'User not found in database.');
+        }
 
-            // User exists, so set limited to false
-            return admin.firestore().collection('users').doc(user_snap.docs[0].data().uid).update({ limited: false }).then(() => {
-                return { success: true };
-            });
-        })
+        // User exists, so set limited to false
+        return admin.firestore().collection('users').doc(user_snap.docs[0].data().uid).update({ limited: false }).then(() => {
+            return { success: true };
+        });
     }).catch((error) => {
         throw new HttpsError('internal', error.message);
     });
 });
 
+// export const denyUser = functions.https.onCall((data, context) => {
+//     // Check if requesting user is an admin.
+//     return admin.firestore().collection('users').where('uid', '==', context.auth.uid).get().then((admin_snap) => {
+//         if (!admin_snap || admin_snap.empty) {
+//             throw new HttpsError('not-found', 'User not found in database.');
+//         }
+
+//         if (!admin_snap.docs[0].data().admin) {
+//             throw new HttpsError('permission-denied', 'You\'re not allowed to preform this action.');
+//         }
+
+//         // Check if accepted user exists
+//         return admin.firestore().collection('users').where('uid', '==', data.uid).get().then((user_snap) => {
+//             if (!user_snap || user_snap.empty) {
+//                 throw new HttpsError('not-found', 'User not found in database.');
+//             }
+
+//             // User exists, delete DB record
+//             return admin.firestore().collection('users').doc(user_snap.docs[0].data().uid).delete().then(() => {
+
+//                 // Delete Firebase Auth entry for the user.
+//                 return admin.auth().deleteUser(user_snap.docs[0].data().uid).then(() => {
+//                     return { success: true };
+//                 });
+//             });
+//         })
+//     }).catch((error) => {
+//         throw new HttpsError('internal', error.message);
+//     });
+// });
+
+// This implementation seems to more like how you should use a Promise...
 export const denyUser = functions.https.onCall((data, context) => {
     // Check if requesting user is an admin.
     return admin.firestore().collection('users').where('uid', '==', context.auth.uid).get().then((admin_snap) => {
@@ -122,22 +181,22 @@ export const denyUser = functions.https.onCall((data, context) => {
         if (!admin_snap.docs[0].data().admin) {
             throw new HttpsError('permission-denied', 'You\'re not allowed to preform this action.');
         }
-
+        
+        return admin_snap;
+    }).then((admin_snap) => {
         // Check if accepted user exists
-        return admin.firestore().collection('users').where('uid', '==', data.uid).get().then((user_snap) => {
-            if (!user_snap || user_snap.empty) {
-                throw new HttpsError('not-found', 'User not found in database.');
-            }
-
-            // User exists, delete DB record
-            return admin.firestore().collection('users').doc(user_snap.docs[0].data().uid).delete().then(() => {
-
-                // Delete Firebase Auth entry for the user.
-                return admin.auth().deleteUser(user_snap.docs[0].data().uid).then(() => {
-                    return { success: true };
-                });
-            });
-        })
+        return admin.firestore().collection('users').where('uid', '==', data.uid).get();
+    }).then((user_snap) => {
+        if (!user_snap || user_snap.empty) {
+            throw new HttpsError('not-found', 'User not found in database.');
+        }
+        // User exists, delete DB record
+        return admin.firestore().collection('users').doc(user_snap.docs[0].data().uid).delete().then(() => {
+            // Delete Firebase Auth entry for the user.
+            return admin.auth().deleteUser(user_snap.docs[0].data().uid);
+        }).then(() => {
+            return { success: true };
+        });
     }).catch((error) => {
         throw new HttpsError('internal', error.message);
     });
