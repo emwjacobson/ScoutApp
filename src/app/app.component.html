@@ -16,7 +16,9 @@
             </li>
             </ng-container>
         </ng-container>
-        {{ user_data?.displayName }} ({{ user_data?.email }})
+        <ng-container *ngIf="user_data">
+          {{ user_data?.displayName }} ({{ user_data?.email }})
+        </ng-container>
       </ul>
     </div>
   </ng-sidebar>

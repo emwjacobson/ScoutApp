@@ -23,6 +23,7 @@ import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.componen
 import { SettingsComponent } from './pages/settings/settings.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { AlertComponent } from './partials/alert/alert.component';
+import { AdminGuard } from './guards/admin.guard';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { AlertComponent } from './partials/alert/alert.component';
   ],
   providers: [
     AuthGuard,
+    AdminGuard,
     BackendService,
   ],
   bootstrap: [AppComponent]

@@ -7,18 +7,27 @@ import { switchMap } from 'rxjs/operators';
 import { QuerySnapshot, Query } from '@firebase/firestore-types';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
 
   constructor(private router: Router, private backend: BackendService) {}
 
   private check() {
-    return this.backend.getUser().switchMap((user: User) => {
-      if (user) {
-        return Observable.of(true);
-      } else {
-        this.router.navigate(['login']);
+    return this.backend.getCurrentUserData().switchMap((query) => {
+      if (!query) {
         return Observable.of(false);
       }
+      // This throws an error when a user logs out, as the currentUserUpdate triggers, causing query.onSnapshot to be called,
+      // and an unauthenticated user doesnt have permission to query.
+      query.onSnapshot((snap) => {
+        if (!(snap.docs) || snap.empty) {
+          return Observable.of(false);
+        }
+        return Observable.of(true);
+      }, (error) => {
+        console.log('Auth Userdata Query Error:');
+        console.log(error);
+        return Observable.of(false);
+      });
     });
   }
 

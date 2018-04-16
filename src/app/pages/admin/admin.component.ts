@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -23,7 +24,7 @@ export class AdminComponent implements OnInit {
     message: ''
   };
 
-  constructor(private backend: BackendService) { }
+  constructor(private router: Router, private backend: BackendService) { }
 
   ngOnInit() {
     this.getRegionals();
@@ -47,6 +48,9 @@ export class AdminComponent implements OnInit {
         temp_users.push(user.data());
       });
       this.limited_users = temp_users;
+    }, (error) => {
+      console.log('How did you get here? ;)');
+      this.router.navigate(['/']);
     });
   }
 

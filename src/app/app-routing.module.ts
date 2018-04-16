@@ -7,6 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -14,16 +15,21 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   {
     path: '',
-    canLoad: [AuthGuard],
     canActivate: [AuthGuard],
     children: [
       { path: 'pit', component: PitScoutingComponent },
       { path: 'settings', component: SettingsComponent },
-      { path: 'admin', component: AdminComponent },
       // { path: 'match', component: MatchScoutingComponent },
       // { path: 'edit-match-scouting', component: EditMatchScoutingComponent },
       // { path: 'match-schedule', component: MatchScheduleComponent },
       // { path: 'list', component: ListComponent }
+    ]
+  },
+  {
+    path: '',
+    canActivate: [AdminGuard],
+    children: [
+      { path: 'admin', component: AdminComponent },
     ]
   },
   { path: '**', redirectTo: '' },
