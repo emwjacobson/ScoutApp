@@ -45,7 +45,7 @@ import { AdminGuard } from './guards/admin.guard';
     SidebarModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireStorageModule,
     AngularFireAuthModule,
   ],
