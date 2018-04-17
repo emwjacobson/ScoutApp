@@ -35,7 +35,7 @@ export class AppComponent {
     this.opened = !this.opened;
   }
 
-  public getUser(): Observable<User> {
+  public getUser(): User {
     return this.backend.getUser();
   }
 

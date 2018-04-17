@@ -56,6 +56,7 @@ export class PitScoutingComponent implements OnInit {
       type: 'primary',
       message: 'Submitting Pit Scout...'
     };
+
     this.backend.uploadPit(this.pit_form).then((success) => {
       this.alert = {
         enabled: true,

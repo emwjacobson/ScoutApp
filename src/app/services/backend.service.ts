@@ -62,8 +62,8 @@ export class BackendService {
     localStorage.removeItem('cur_regional');
   }
 
-  public getUser(): Observable<User> {
-    return this.auth.authState;
+  public getUser(): User {
+    return this.auth.auth.currentUser;
   }
 
   public getLimitedUsers() {
@@ -165,14 +165,15 @@ export class BackendService {
         team_number: data.team_number,
         drivetrain: data.drivetrain,
         comments: data.comments,
-        image: image_name_full
+        image: image_name_full,
+        uploaded_by: this.auth.auth.currentUser.uid
       };
 
       // Add database entry.
       // TODO: Check for existing pit scout, and if present append image to array of images?
-      return this.pit_scout.add(pit_data).then(() => {
-        return Promise.resolve(true);
-      });
+      return this.pit_scout.add(pit_data);
+    }).then(() => {
+      return Promise.resolve(true);
     });
   }
 }

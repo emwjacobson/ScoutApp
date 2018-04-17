@@ -1,10 +1,10 @@
 <nav class="navbar sticky-top navbar-light bg-light">
   <div class="navbar-brand">
-      <i class="fa fa-bars" style="padding: 10px;" (click)="toggleSidebar()"></i>&nbsp;&nbsp;<a class="navbar-brand" routerLink="/">{{ name }}</a>
+    <i class="fa fa-bars" style="padding: 10px;" (click)="toggleSidebar()"></i>&nbsp;&nbsp;<a class="navbar-brand" routerLink="/">{{ name }}</a>
   </div>
   <form class="navbar-text">
-    <div *ngIf="(getUser() | async) as user; else loggedOut">
-        <a routerLink="settings" style="color: rgba(0,0,0,.5)">{{ getRegional().name }}</a>&nbsp;&nbsp;&nbsp;
+    <div *ngIf="getUser() as user; else loggedOut">
+      <a routerLink="settings" style="color: rgba(0,0,0,.5)">{{ getRegional().name }}</a>&nbsp;&nbsp;&nbsp;
       <a (click)="logout()" routerLink="">Logout</a>
     </div>
     <ng-template #loggedOut>

@@ -12,14 +12,18 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, private backend: BackendService) {}
 
   private check() {
-    return this.backend.getUser().switchMap((user: User) => {
-      if (user) {
-        return Observable.of(true);
-      } else {
-        this.router.navigate(['login']);
-        return Observable.of(false);
-      }
-    });
+    // return this.backend.getUser().switchMap((user: User) => {
+    //   if (user) {
+    //     return Observable.of(true);
+    //   } else {
+    //     this.router.navigate(['login']);
+    //     return Observable.of(false);
+    //   }
+    // });
+    if (this.backend.getUser()) {
+      return true;
+    }
+    return false;
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
