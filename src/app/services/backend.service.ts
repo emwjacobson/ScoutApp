@@ -6,14 +6,17 @@ import { FirebaseFunctions, HttpsCallableResult } from '@firebase/functions-type
 import firebase from '@firebase/app';
 import '@firebase/functions';
 import { Observable } from 'rxjs/Observable';
-import { switchMap  } from 'rxjs/operators';
+import { tap, catchError, map } from 'rxjs/operators';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/observable/forkJoin';
 import { environment } from '../../environments/environment';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { UploadTaskSnapshot } from '@firebase/storage-types';
 import { QuerySnapshot, DocumentReference, CollectionReference, DocumentSnapshot, DocumentData, Query } from '@firebase/firestore-types';
 import * as md5 from 'md5';
 import { base64Decode } from '@firebase/util';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Injectable()
 export class BackendService {
@@ -58,8 +61,8 @@ export class BackendService {
   }
 
   public logout(): void {
-    this.auth.auth.signOut();
     localStorage.removeItem('cur_regional');
+    this.auth.auth.signOut();
   }
 
   public getUser(): User {
@@ -103,7 +106,6 @@ export class BackendService {
   public getTBARegionals(): Observable<any[]> {
     // Request to TBA api to get regionals.
     const headers = {
-      accept: 'application/json',
       'X-TBA-Auth-Key': environment.tba.api
     };
     return this.http.get<any[]>(environment.tba.endpoint + 'events/' + environment.year + '/simple', { headers: headers });
@@ -116,16 +118,36 @@ export class BackendService {
         this.pit_scout = this.reg_ref.collection('pit');
         this.match_scout = this.reg_ref.collection('match');
 
+        this.getTBARegionalData(res.docs[0].data().id);
+
         this.reg_ref.onSnapshot((reg) => {
-          this.regional = reg.data();
-          localStorage.setItem('cur_regional', JSON.stringify(this.regional));
+          const reg_data = reg.data();
+          this.regional.id = reg_data.id;
+          this.regional.name = reg_data.name;
+          this.saveRegional();
         });
       } else { // If it doesnt exist...
         this.regional = { name: 'No Regional Set', id: 'no-regional' };
-        localStorage.setItem('cur_regional', JSON.stringify(this.regional));
+        this.saveRegional();
       }
     });
+  }
 
+  private getTBARegionalData(reg_id: string) {
+    const headers = {
+      'X-TBA-Auth-Key': environment.tba.api
+    };
+    Observable.forkJoin(
+      this.http.get<any[]>(environment.tba.endpoint + 'event/' + reg_id + '/teams/simple', {headers: headers, observe: 'response'}),
+      this.http.get<any[]>(environment.tba.endpoint + 'event/' + reg_id + '/matches/simple', {headers: headers, observe: 'response'}),
+    ).mergeMap((res: HttpResponse<any[]>[]) => {
+      if (res[0].status === 200 && res[1].status === 200) {
+        this.regional.teams = res[0].body;
+        this.regional.matches = res[1].body;
+        this.saveRegional();
+      }
+      return Observable.of(true);
+    }).subscribe((a) => console.log(a));
   }
 
   public getCurRegional(): DocumentData {
@@ -175,5 +197,9 @@ export class BackendService {
     }).then(() => {
       return Promise.resolve(true);
     });
+  }
+
+  private saveRegional() {
+    localStorage.setItem('cur_regional', JSON.stringify(this.regional));
   }
 }
