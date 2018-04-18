@@ -12,17 +12,19 @@ import { HeaderComponent } from './partials/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { AlertComponent } from './partials/alert/alert.component';
+import { ScheduleComponent } from './pages/schedule/schedule.component';
 // Services
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { BackendService } from './services/backend.service';
+// Guards
 import { AuthGuard } from './guards/auth.guard';
-import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.component';
-import { SettingsComponent } from './pages/settings/settings.component';
-import { AdminComponent } from './pages/admin/admin.component';
-import { AlertComponent } from './partials/alert/alert.component';
 import { AdminGuard } from './guards/admin.guard';
 
 @NgModule({
@@ -36,6 +38,7 @@ import { AdminGuard } from './guards/admin.guard';
     SettingsComponent,
     AdminComponent,
     AlertComponent,
+    ScheduleComponent,
   ],
   imports: [
     BrowserModule,

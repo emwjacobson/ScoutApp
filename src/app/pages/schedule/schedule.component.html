@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-bordered" style="width: 100%">
+      <thead>
+        <tr>
+          <th scope="col">Match</th>
+          <th scope="col">Red 1</th>
+          <th scope="col">Red 2</th>
+          <th scope="col">Red 3</th>
+          <th scope="col">Red Score</th>
+          <th scope="col">Blue 1</th>
+          <th scope="col">Blue 2</th>
+          <th scope="col">Blue 3</th>
+          <th scope="col">Blue Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let match of getRegional().matches">
+          <td>{{ (match.comp_level | uppercase) + match.match_number }}</td>
+          <td *ngFor="let team of match.alliances.red.team_keys" class="red" [class.winner-red]="match.alliances.red.score > match.alliances.blue.score">{{ team.substring(3) }}</td>
+          <td class="red" [class.winner-red]="match.alliances.red.score > match.alliances.blue.score">{{ match.alliances.red.score }}</td>
+          <td *ngFor="let team of match.alliances.blue.team_keys" class="blue" [class.winner-blue]="match.alliances.blue.score > match.alliances.red.score">{{ team.substring(3) }}</td>
+          <td class="blue" [class.winner-blue]="match.alliances.blue.score > match.alliances.red.score">{{ match.alliances.blue.score }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -8,6 +8,7 @@ import { PitScoutingComponent } from './pages/pit-scouting/pit-scouting.componen
 import { SettingsComponent } from './pages/settings/settings.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { AdminGuard } from './guards/admin.guard';
+import { ScheduleComponent } from './pages/schedule/schedule.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,9 +20,9 @@ const routes: Routes = [
     children: [
       { path: 'pit', component: PitScoutingComponent },
       { path: 'settings', component: SettingsComponent },
+      { path: 'schedule', component: ScheduleComponent },
       // { path: 'match', component: MatchScoutingComponent },
       // { path: 'edit-match-scouting', component: EditMatchScoutingComponent },
-      // { path: 'match-schedule', component: MatchScheduleComponent },
       // { path: 'list', component: ListComponent }
     ]
   },

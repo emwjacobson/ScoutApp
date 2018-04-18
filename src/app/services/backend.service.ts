@@ -144,7 +144,7 @@ export class BackendService {
       console.log('Got TBA Match & Team data');
       if (res[0].status === 200 && res[1].status === 200) {
         this.regional.teams = res[0].body;
-        this.regional.matches = res[1].body;
+        this.regional.matches = res[1].body.sort((a, b) => a.time > b.time ? 1 : b.time > a.time ? -1 : 0);
         this.saveRegional();
       }
     });
