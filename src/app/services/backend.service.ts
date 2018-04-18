@@ -110,7 +110,7 @@ export class BackendService {
   }
 
   public setCurRegional(regional: DocumentData): void {
-    this.year_ref.where('id', '==', regional.id).get().then((res) => {
+    this.year_ref.where('id', '==', regional.id).get().then((res: QuerySnapshot) => {
       if (!res.empty) { // If the regional exists in the database...
         this.reg_ref = res.docs[0].ref;
         this.pit_scout = this.reg_ref.collection('pit');
