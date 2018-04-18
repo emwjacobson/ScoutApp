@@ -140,14 +140,14 @@ export class BackendService {
     Observable.forkJoin(
       this.http.get<any[]>(environment.tba.endpoint + 'event/' + reg_id + '/teams/simple', {headers: headers, observe: 'response'}),
       this.http.get<any[]>(environment.tba.endpoint + 'event/' + reg_id + '/matches/simple', {headers: headers, observe: 'response'}),
-    ).mergeMap((res: HttpResponse<any[]>[]) => {
+    ).subscribe((res: HttpResponse<any[]>[]) => {
+      console.log('Got TBA Match & Team data');
       if (res[0].status === 200 && res[1].status === 200) {
         this.regional.teams = res[0].body;
         this.regional.matches = res[1].body;
         this.saveRegional();
       }
-      return Observable.of(true);
-    }).subscribe((a) => console.log(a));
+    });
   }
 
   public getCurRegional(): DocumentData {
