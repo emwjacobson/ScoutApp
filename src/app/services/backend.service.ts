@@ -100,7 +100,7 @@ export class BackendService {
     return this.year_ref;
   }
 
-  public getAllRegionals(): Observable<any[]> {
+  public getTBARegionals(): Observable<any[]> {
     // Request to TBA api to get regionals.
     const headers = {
       accept: 'application/json',

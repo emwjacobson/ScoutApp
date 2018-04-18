@@ -32,7 +32,7 @@ export class AdminComponent implements OnInit {
   }
 
   public getRegionals() {
-    this.backend.getAllRegionals().subscribe((res) => {
+    this.backend.getTBARegionals().subscribe((res) => {
       this.regionals = res.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0));
     });
   }
