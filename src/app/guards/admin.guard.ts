@@ -13,11 +13,13 @@ export class AdminGuard implements CanActivate {
 
   private check() {
     return this.backend.getUser().switchMap((user: User) => {
-      if (!user) {
-        this.router.navigate(['']);
-        return Observable.of(false);
-      }
-      return Observable.of(true);
+      return this.backend.isUserAdmin(user.uid).then((isAdmin: boolean) => {
+        if (!user || !isAdmin) {
+          this.router.navigate(['']);
+          return false;
+        }
+        return true;
+      });
     });
   }
 

@@ -67,10 +67,14 @@ export class BackendService {
     this.auth.auth.signOut();
   }
 
-  // public getUser(): User {
   public getUser(): Observable<User> {
-    // return this.auth.auth.currentUser;
     return this.auth.authState;
+  }
+
+  public isUserAdmin(uid: string): Promise<boolean> {
+    return this.users_ref.doc(uid).get().then((data) => {
+      return data.data().admin;
+    });
   }
 
   public getLimitedUsers() {
