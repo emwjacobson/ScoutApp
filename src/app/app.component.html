@@ -6,7 +6,7 @@
         <li *ngFor="let page of public_pages">
           <a [routerLink]="page.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ page.title }}</a>
         </li>
-        <ng-container *ngIf="getUser() as user">
+        <ng-container *ngIf="(getUser() | async) as user">
           <li *ngFor="let page of signed_in_pages">
             <a [routerLink]="page.url" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ page.title }}</a>
           </li>

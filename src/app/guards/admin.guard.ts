@@ -12,10 +12,13 @@ export class AdminGuard implements CanActivate {
   constructor(private router: Router, private backend: BackendService) {}
 
   private check() {
-    if (this.backend.getUser()) {
-      return true;
-    }
-    return false;
+    return this.backend.getUser().switchMap((user: User) => {
+      if (!user) {
+        this.router.navigate(['']);
+        return Observable.of(false);
+      }
+      return Observable.of(true);
+    });
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {

@@ -1,0 +1,76 @@
+<div class="container">
+  <accordion>
+    <accordion-group *ngFor="let team of getRegional().teams" [heading]="team.team_number + ' - ' + team.nickname">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="card" *ngIf="getPitData(team.team_number) as data; else nodata">
+            <img class="card-img-top" [src]="data.download_url">
+            <div class="card-body">
+              <p class="card-text">
+                Drivetrain: {{ data.drivetrain }}<br>
+                Comments: {{ data.comments }}<br>
+                By: {{ data.uploaded_by_name }}
+              </p>
+            </div>
+          </div>
+          <ng-template #nodata>
+            <div class="card">
+              <img class="card-img-top" src="">
+              <div class="card-body">
+                <p class="card-text">
+                  No Pitscout Data.
+                </p>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+        <div class="col-sm-9">
+          <accordion>
+            <accordion-group heading="Stats" isOpen="true" *ngIf="getStats(team.team_number) as stats">
+              Wins: {{ stats.wins }}
+              Losses: {{ stats.losses }}
+              Ties: {{ stats.ties }}
+              Unplayed: {{ stats.unplayed }}
+            </accordion-group>
+            <accordion-group heading="Matches">
+              <div class="table-responsive">
+                <table class="table table-bordered" style="width: 100%">
+                  <thead>
+                    <tr>
+                      <th scope="col">Match</th>
+                      <th scope="col">Red 1</th>
+                      <th scope="col">Red 2</th>
+                      <th scope="col">Red 3</th>
+                      <th scope="col">Red Score</th>
+                      <th scope="col">Blue 1</th>
+                      <th scope="col">Blue 2</th>
+                      <th scope="col">Blue 3</th>
+                      <th scope="col">Blue Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let match of getMatches(team.team_number)">
+                      <td>{{ (match.comp_level | uppercase) + match.match_number }}</td>
+                      <td *ngFor="let tm of match.alliances.red.team_keys" class="red" 
+                          [class.winner-red]="match.alliances.red.score > match.alliances.blue.score"
+                          [class.standout-red]="tm.substring(3) == team.team_number">
+                          {{ tm.substring(3) }}
+                      </td>
+                      <td class="red" [class.winner-red]="match.alliances.red.score > match.alliances.blue.score">{{ match.alliances.red.score }}</td>
+                      <td *ngFor="let tm of match.alliances.blue.team_keys" class="blue"
+                          [class.winner-blue]="match.alliances.blue.score > match.alliances.red.score"
+                          [class.standout-blue]="tm.substring(3) == team.team_number">
+                          {{ tm.substring(3) }}
+                      </td>
+                      <td class="blue" [class.winner-blue]="match.alliances.blue.score > match.alliances.red.score">{{ match.alliances.blue.score }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </accordion-group>
+          </accordion>
+        </div>
+      </div>
+    </accordion-group>
+  </accordion>
+</div>

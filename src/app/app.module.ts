@@ -17,6 +17,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { AlertComponent } from './partials/alert/alert.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
+import { AccordionModule } from 'ngx-bootstrap';
 // Services
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
@@ -26,6 +27,7 @@ import { BackendService } from './services/backend.service';
 // Guards
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { TeamsComponent } from './pages/teams/teams.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { AdminGuard } from './guards/admin.guard';
     AdminComponent,
     AlertComponent,
     ScheduleComponent,
+    TeamsComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +54,7 @@ import { AdminGuard } from './guards/admin.guard';
     AngularFirestoreModule.enablePersistence(),
     AngularFireStorageModule,
     AngularFireAuthModule,
+    AccordionModule.forRoot()
   ],
   providers: [
     AuthGuard,

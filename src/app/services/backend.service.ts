@@ -21,14 +21,16 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 @Injectable()
 export class BackendService {
   private regional: DocumentData = { name: 'No Regional Set', id: 'no-regional' };
+  private pit_data = [];
+  private match_data = [];
   private createUserFunc = firebase.functions().httpsCallable('registerUser');
   private acceptUserFunc = firebase.functions().httpsCallable('acceptUser');
   private denyUserFunc = firebase.functions().httpsCallable('denyUser');
   private users_ref = this.db.collection('users').ref;
   private year_ref = this.db.collection('' + environment.year).ref;
   private reg_ref = this.year_ref.doc(this.regional.id);
-  private pit_scout = this.reg_ref.collection('pit');
-  private match_scout = this.reg_ref.collection('match');
+  private pit_ref = this.reg_ref.collection('pit');
+  private match_ref = this.reg_ref.collection('match');
 
   constructor(private db: AngularFirestore, private auth: AngularFireAuth, private storage: AngularFireStorage, private http: HttpClient) {
     if (localStorage.getItem('cur_regional')) {
@@ -65,8 +67,10 @@ export class BackendService {
     this.auth.auth.signOut();
   }
 
-  public getUser(): User {
-    return this.auth.auth.currentUser;
+  // public getUser(): User {
+  public getUser(): Observable<User> {
+    // return this.auth.auth.currentUser;
+    return this.auth.authState;
   }
 
   public getLimitedUsers() {
@@ -115,8 +119,8 @@ export class BackendService {
     this.year_ref.where('id', '==', regional.id).get().then((res: QuerySnapshot) => {
       if (!res.empty) { // If the regional exists in the database...
         this.reg_ref = res.docs[0].ref;
-        this.pit_scout = this.reg_ref.collection('pit');
-        this.match_scout = this.reg_ref.collection('match');
+        this.pit_ref = this.reg_ref.collection('pit');
+        this.match_ref = this.reg_ref.collection('match');
 
         this.getTBARegionalData(res.docs[0].data().id);
 
@@ -125,6 +129,22 @@ export class BackendService {
           this.regional.id = reg_data.id;
           this.regional.name = reg_data.name;
           this.saveRegional();
+        });
+
+        this.pit_ref.onSnapshot((team) => {
+          const temp_data = [];
+          team.docs.forEach(data => {
+            temp_data.push(data.data());
+          });
+          this.pit_data = temp_data;
+        });
+
+        this.match_ref.onSnapshot((match) => {
+          const temp_data = [];
+          match.docs.forEach(data => {
+            temp_data.push(data.data());
+          });
+          this.match_data = temp_data;
         });
       } else { // If it doesnt exist...
         this.regional = { name: 'No Regional Set', id: 'no-regional' };
@@ -143,7 +163,7 @@ export class BackendService {
     ).subscribe((res: HttpResponse<any[]>[]) => {
       console.log('Got TBA Match & Team data');
       if (res[0].status === 200 && res[1].status === 200) {
-        this.regional.teams = res[0].body;
+        this.regional.teams = res[0].body.sort((a, b) => a.team_number > b.team_number ? 1 : -1);
         this.regional.matches = res[1].body.sort((a, b) => a.time > b.time ? 1 : b.time > a.time ? -1 : 0);
         this.saveRegional();
       }
@@ -188,15 +208,21 @@ export class BackendService {
         drivetrain: data.drivetrain,
         comments: data.comments,
         image: image_name_full,
-        uploaded_by: this.auth.auth.currentUser.uid
+        uploaded_by: this.auth.auth.currentUser.uid,
+        uploaded_by_name: this.auth.auth.currentUser.displayName,
+        download_url: snapshot.metadata.downloadURLs[0]
       };
 
       // Add database entry.
       // TODO: Check for existing pit scout, and if present append image to array of images?
-      return this.pit_scout.add(pit_data);
+      return this.pit_ref.add(pit_data);
     }).then(() => {
       return Promise.resolve(true);
     });
+  }
+
+  public getPitData() {
+    return this.pit_data;
   }
 
   private saveRegional() {

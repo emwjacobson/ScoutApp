@@ -3,7 +3,7 @@
     <i class="fa fa-bars" style="padding: 10px;" (click)="toggleSidebar()"></i>&nbsp;&nbsp;<a class="navbar-brand" routerLink="/">{{ name }}</a>
   </div>
   <form class="navbar-text">
-    <div *ngIf="getUser() as user; else loggedOut">
+    <div *ngIf="(getUser() | async) as user; else loggedOut">
       <a routerLink="settings" style="color: rgba(0,0,0,.5)">{{ getRegional().name.length > 15 ? getRegional().name.substr(0, 15) + '...' : getRegional().name }}</a>&nbsp;&nbsp;&nbsp;
       <a (click)="logout()" routerLink="">Logout</a>
     </div>

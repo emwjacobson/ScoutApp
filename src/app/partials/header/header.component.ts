@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  public getUser(): User {
+  public getUser(): Observable<User> {
     return this.backend.getUser();
   }
 

@@ -18,7 +18,7 @@ export class AppComponent {
   public signed_in_pages = [
     { title: 'Pit Scout', url: 'pit' },
     { title: 'Match Scout', url: 'match' },
-    { title: 'Team List', url: 'teamlist' },
+    { title: 'Team List', url: 'teams' },
     { title: 'Match Schedule', url: 'schedule' },
     { title: 'Settings', url: 'settings' },
   ];
@@ -35,7 +35,7 @@ export class AppComponent {
     this.opened = !this.opened;
   }
 
-  public getUser(): User {
+  public getUser(): Observable<User> {
     return this.backend.getUser();
   }
 

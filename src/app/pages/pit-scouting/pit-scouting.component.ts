@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
+// import 'resize-image';
+const resizeImage = require('resize-image');
 
 @Component({
   selector: 'app-pit-scouting',
@@ -32,10 +34,21 @@ export class PitScoutingComponent implements OnInit {
   }
 
   public imageChanged(event) {
+    const img = new Image();
+    img.src = this.file_reader.result;
+
     this.file_reader.onload = () => {
       this.pit_form.image = this.file_reader.result;
     };
     if (event.target.files.length > 0) {
+      if (event.target.files[0].size > 5 * 1024 * 1024) {
+        this.alert = {
+          enabled: true,
+          type: 'danger',
+          message: 'Image is too large. Max file size is 5MB.'
+        };
+        return;
+      }
       this.file_reader.readAsDataURL(event.target.files[0]);
     } else {
       this.pit_form.image = null;
