@@ -28,6 +28,7 @@ import { BackendService } from './services/backend.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { TeamsComponent } from './pages/teams/teams.component';
+import { MatchComponent } from './pages/match/match.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { TeamsComponent } from './pages/teams/teams.component';
     AlertComponent,
     ScheduleComponent,
     TeamsComponent,
+    MatchComponent,
   ],
   imports: [
     BrowserModule,
