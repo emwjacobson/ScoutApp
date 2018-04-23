@@ -15,8 +15,11 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { UploadTaskSnapshot } from '@firebase/storage-types';
 import { QuerySnapshot, DocumentReference, CollectionReference, DocumentSnapshot, DocumentData, Query } from '@firebase/firestore-types';
 import * as md5 from 'md5';
-import { base64Decode } from '@firebase/util';
+import { base64Decode, validateContextObject } from '@firebase/util';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+
+const game_template = require('./../../../game-template.json');
 
 @Injectable()
 export class BackendService {
@@ -227,6 +230,22 @@ export class BackendService {
 
   public getPitData() {
     return this.pit_data;
+  }
+
+  public getMatchTemplate(): any {
+    return game_template;
+  }
+
+  public getFormGroup(): any {
+    const group: any = {};
+    const questions = this.getMatchTemplate();
+
+    questions.forEach(type => {
+      type.fields.forEach(question => {
+        group[question.name] = new FormControl(question.default_value, question.required ? Validators.required : null);
+      });
+    });
+    return new FormGroup(group);
   }
 
   private saveRegional() {

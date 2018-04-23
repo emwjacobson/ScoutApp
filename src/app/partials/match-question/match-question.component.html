@@ -1,0 +1,59 @@
+<div [formGroup]="form">
+  <span [ngSwitch]="data.type">
+
+    <!-- Checkbox -->
+    <div *ngSwitchCase="'boolean'" class="custom-control custom-checkbox">
+      <input type="checkbox" [id]="data.name" class="custom-control-input" [name]="data.name" [formControlName]="data.name">
+      <label [for]="data.name" class="custom-control-label">{{ data.display_name }}</label>
+      <br><br>
+    </div>
+
+    <!-- Number -->
+    <div *ngSwitchCase="'number'" >
+      <!-- <div *ngIf="data.num_counter; else noCounter" class="form-row">
+        <label [for]="data.name" class="col-form-label col-sm-12">{{ data.display_name }}</label>
+        <input type="number" [id]="data.name" class="form-control col-sm-10 counter" [name]="data.name" [formControlName]="data.name">
+        <div class="col-sm-2">
+          <div (click)="inc()" class="custom-btn"><div class="content">+</div></div>
+          <div (click)="dec()" class="custom-btn"><div class="content">-</div></div>
+        </div>
+      </div> -->
+      <div *ngIf="data.num_counter; else noCounter" class="form-group">
+        <label [for]="data.name">{{ data.display_name }}</label>
+        <div class="input-group">
+          <input type="number" [id]="data.name" class="form-control" [name]="data.name" [formControlName]="data.name">
+          <div class="input-group-append">
+            <button class="btn btn-outline-success" type="button" (click)="inc()">&nbsp;&nbsp;+&nbsp;&nbsp;</button>
+            <button class="btn btn-outline-danger" type="button" (click)="dec()">&nbsp;&nbsp;-&nbsp;&nbsp;</button>
+          </div>
+        </div>
+      </div>
+      <ng-template #noCounter>
+        <div class="form-group">
+          <label [for]="data.name" class="col-form-label">{{ data.display_name }}</label>
+          <input type="number" [id]="data.name" class="form-control" [name]="data.name" [formControlName]="data.name">
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Textbox -->
+    <div *ngSwitchCase="'textbox'" class="form-group">
+      <label [for]="data.name" class="col-form-label">{{ data.display_name }}</label>
+      <textarea [id]="data.name" class="form-control" [name]="data.name" [formControlName]="data.name"></textarea>
+    </div>
+
+    <!-- String -->
+    <div *ngSwitchCase="'string'" class="form-group">
+      <label [for]="data.name" class="col-form-label">{{ data.display_name }}</label>
+      <input type="text" [id]="data.name" class="form-control" [name]="data.name" [formControlName]="data.name">
+    </div>
+
+    <!-- Dropdown? -->
+    <div *ngSwitchCase="'list'" class="form-group">
+      <label [for]="data.name" class="col-form-label">{{ data.display_name }}</label>
+      <select [id]="data.name" class="custom-select" [name]="data.name" [formControlName]="data.name">
+        <option *ngFor="let opt of data.values" [value]="opt" [selected]="opt == data.name.default_value">{{ opt }}</option>
+      </select>
+    </div>
+  </span>
+</div>

@@ -29,6 +29,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { TeamsComponent } from './pages/teams/teams.component';
 import { MatchComponent } from './pages/match/match.component';
+import { MatchQuestionComponent } from './partials/match-question/match-question.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { MatchComponent } from './pages/match/match.component';
     ScheduleComponent,
     TeamsComponent,
     MatchComponent,
+    MatchQuestionComponent,
   ],
   imports: [
     BrowserModule,

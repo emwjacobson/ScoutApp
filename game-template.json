@@ -1,0 +1,129 @@
+[
+    {
+        "name": "Match",
+        "fields": [
+            {
+                "name": "team_number",
+                "display_name": "Team Number",
+                "type": "number",
+                "value": null,
+                "default_value": 0,
+                "num_counter": false,
+                "required": true
+            },
+            {
+                "name": "match_number",
+                "display_name": "Match Number",
+                "type": "string",
+                "value": "",
+                "default_value": "",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "Autonomous",
+        "fields": [
+            {
+                "name": "auto_baseline",
+                "display_name": "Crossed Baseline?",
+                "type": "boolean",
+                "value": false,
+                "default_value": false,
+                "required": true
+            },
+            {
+                "name": "auto_switch",
+                "display_name": "Switch",
+                "type": "number",
+                "value": 0,
+                "default_value": 0,
+                "num_counter": true,
+                "required": true
+            },
+            {
+                "name": "auto_scale",
+                "display_name": "Scale",
+                "type": "number",
+                "value": 0,
+                "default_value": 0,
+                "num_counter": true,
+                "required": true
+            },
+            {
+                "name": "auto_comments",
+                "display_name": "Auto Comments",
+                "type": "textbox",
+                "value": "",
+                "default_value": "",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "Teleop",
+        "fields": [
+            {
+                "name": "teleop_team_switch",
+                "display_name": "Team Switch",
+                "type": "number",
+                "value": 0,
+                "default_value": 0,
+                "num_counter": true,
+                "required": true
+            },
+            {
+                "name": "teleop_scale",
+                "display_name": "Scale",
+                "type": "number",
+                "value": 0,
+                "default_value": 0,
+                "num_counter": true,
+                "required": true
+            },
+            {
+                "name": "teleop_opp_switch",
+                "display_name": "Opponent Switch",
+                "type": "number",
+                "value": 0,
+                "default_value": 0,
+                "num_counter": true,
+                "required": true
+            },
+            {
+                "name": "teleop_exchange",
+                "display_name": "Exchange",
+                "type": "number",
+                "value": 0,
+                "default_value": 0,
+                "num_counter": true,
+                "required": true
+            },
+            {
+                "name": "teleop_climb",
+                "display_name": "Climb",
+                "type": "list",
+                "value": "",
+                "default_value": "",
+                "values": ["Self Climb", "Carry 1", "Carry 2", "Levitate", "None"],
+                "required": true
+            },
+            {
+                "name": "teleop_comments",
+                "display_name": "Teleop Comments",
+                "type": "textbox",
+                "value": "",
+                "default_value": "",
+                "required": true
+            },
+            {
+                "name": "teleop_penalties",
+                "display_name": "Penalties",
+                "type": "textbox",
+                "value": "",
+                "default_value": "",
+                "required": false
+            }
+        ]
+    }
+]

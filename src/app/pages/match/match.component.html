@@ -5,7 +5,18 @@
         Match Scout
       </div>
       <div class="card-body">
-        
+        <form (ngSubmit)="submitMatchScout();" [formGroup]="form">
+          <div *ngFor="let types of match_template">
+            <h4>{{ types.name }}</h4>
+            <hr *ngIf="types.name">
+            <div *ngFor="let question of types.fields">
+              <app-match-question [data]="question" [form]="form"></app-match-question>
+            </div>
+          </div>
+          <div class="col-sm-12 text-center">
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
