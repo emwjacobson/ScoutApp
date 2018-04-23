@@ -1,4 +1,4 @@
-# Porkascout
+# Scout
 
 ## Initial Installation
 

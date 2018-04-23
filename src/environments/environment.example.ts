@@ -6,7 +6,7 @@
 // The contents for these values can be found in the Project Settings of your firebase project.
 export const environment = {
   production: true,
-  name: 'PorkaScout',
+  name: 'Scout',
   version: '0.0.1',
   year: 2018,
   firebase: {

@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('porkascout App', () => {
+describe('scout App', () => {
   let page: AppPage;
 
   beforeEach(() => {
