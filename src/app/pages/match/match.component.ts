@@ -10,6 +10,11 @@ import { FormGroup } from '@angular/forms';
 export class MatchComponent implements OnInit {
   public match_template: any;
   public form: FormGroup;
+  public alert = {
+    enabled: false,
+    type: '',
+    message: ''
+  };
 
   constructor(public backend: BackendService) {
     this.match_template = this.backend.getMatchTemplate();
@@ -20,7 +25,27 @@ export class MatchComponent implements OnInit {
   }
 
   public submitMatchScout() {
-    console.log(this.form);
+    this.backend.uploadMatch(this.form.value).then((res: boolean) => {
+      if (res) {
+        this.alert = {
+          enabled: true,
+          type: 'success',
+          message: 'Match Scout successfully submitted.'
+        };
+      } else {
+        this.alert = {
+          enabled: true,
+          type: 'danger',
+          message: 'Unable to submit match scout.'
+        };
+      }
+    }).catch((error) => {
+      this.alert = {
+        enabled: false,
+        type: 'danger',
+        message: error
+      };
+    });
   }
 
 }

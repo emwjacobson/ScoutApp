@@ -68,4 +68,8 @@ export class TeamsComponent implements OnInit {
     })[0];
   }
 
+  public test() {
+    console.log('test');
+  }
+
 }

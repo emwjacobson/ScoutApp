@@ -189,7 +189,7 @@ export class BackendService {
     return this.year_ref.add(data);
   }
 
-  public uploadPit(data): Promise<boolean> {
+  public uploadPit(data: any): Promise<boolean> {
     // public pit_form = {
     //   team_number: null,
     //   image: null,
@@ -246,6 +246,15 @@ export class BackendService {
       });
     });
     return new FormGroup(group);
+  }
+
+  public uploadMatch(data: any): Promise<boolean> {
+    return this.match_ref.add(data).then(a => {
+      if (a) {
+        return true;
+      }
+      return false;
+    });
   }
 
   private saveRegional() {

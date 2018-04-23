@@ -7,7 +7,7 @@
                 "display_name": "Team Number",
                 "type": "number",
                 "value": null,
-                "default_value": 0,
+                "default_value": null,
                 "num_counter": false,
                 "required": true
             },
