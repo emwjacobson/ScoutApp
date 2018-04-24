@@ -15,10 +15,15 @@ export class MatchComponent implements OnInit {
     type: '',
     message: ''
   };
+  public match_numbers: string[] = [];
 
   constructor(public backend: BackendService) {
     this.match_template = this.backend.getMatchTemplate();
     this.form = this.backend.getFormGroup();
+
+    const formControlSub = this.form.controls['team_number'].valueChanges.debounceTime(500).subscribe((new_team_num) => {
+      this.match_numbers = this.backend.getTeamMatches(new_team_num);
+    });
   }
 
   ngOnInit() {
@@ -32,6 +37,7 @@ export class MatchComponent implements OnInit {
           type: 'success',
           message: 'Match Scout successfully submitted.'
         };
+        this.form.reset();
       } else {
         this.alert = {
           enabled: true,

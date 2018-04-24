@@ -236,9 +236,16 @@ export class BackendService {
     return game_template;
   }
 
+  public getTeamMatches(team_number: number): string[] {
+    return this.regional.matches.filter((e) => e.alliances.blue.team_keys.some(tn => tn === 'frc' + team_number) || e.alliances.red.team_keys.some(tn => tn === 'frc' + team_number));
+  }
+
   public getFormGroup(): any {
     const group: any = {};
     const questions = this.getMatchTemplate();
+
+    group['team_number'] = new FormControl(null, [Validators.required]);
+    group['match_number'] = new FormControl(null, [Validators.required]);
 
     questions.forEach(type => {
       type.fields.forEach(question => {
