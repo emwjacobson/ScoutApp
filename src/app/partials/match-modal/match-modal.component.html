@@ -1,0 +1,48 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{ team_data.team_number }} - {{ team_data.nickname }}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" style="width: 100%">
+        <thead>
+          <tr>
+            <th scope="col">Match</th>
+            <th scope="col">Red 1</th>
+            <th scope="col">Red 2</th>
+            <th scope="col">Red 3</th>
+            <th scope="col">Red Score</th>
+            <th scope="col">Blue 1</th>
+            <th scope="col">Blue 2</th>
+            <th scope="col">Blue 3</th>
+            <th scope="col">Blue Score</th>
+            <th scope="col">Predicted Time (Actual)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ (match_data.comp_level | uppercase) + match_data.match_number }}</td>
+            <td *ngFor="let tm of match_data.alliances.red.team_keys" class="red" 
+                [class.winner-red]="match_data.alliances.red.score > match_data.alliances.blue.score"
+                [class.standout-red]="tm.substring(3) == team_data.team_number">
+                {{ tm.substring(3) }}
+            </td>
+            <td class="red" [class.winner-red]="match_data.alliances.red.score > match_data.alliances.blue.score">{{ match_data.alliances.red.score }}</td>
+              <td *ngFor="let tm of match_data.alliances.blue.team_keys" class="blue"
+                  [class.winner-blue]="match_data.alliances.blue.score > match_data.alliances.red.score"
+                  [class.standout-blue]="tm.substring(3) == team_data.team_number">
+                  {{ tm.substring(3) }}
+              </td>
+              <td class="blue" [class.winner-blue]="match_data.alliances.blue.score > match_data.alliances.red.score">{{ match_data.alliances.blue.score }}</td>
+              <td>{{ convertTime(match_data.predicted_time) }} ({{ convertTime(match_data.actual_time) }})</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+  </div>
+</div>

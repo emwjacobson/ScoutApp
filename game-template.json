@@ -1,27 +1,5 @@
 [
     {
-        "name": "Match",
-        "fields": [
-            {
-                "name": "team_number",
-                "display_name": "Team Number",
-                "type": "number",
-                "value": null,
-                "default_value": null,
-                "num_counter": false,
-                "required": true
-            },
-            {
-                "name": "match_number",
-                "display_name": "Match Number",
-                "type": "string",
-                "value": "",
-                "default_value": "",
-                "required": true
-            }
-        ]
-    },
-    {
         "name": "Autonomous",
         "fields": [
             {

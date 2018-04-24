@@ -46,10 +46,11 @@
                       <th scope="col">Blue 2</th>
                       <th scope="col">Blue 3</th>
                       <th scope="col">Blue Score</th>
+                      <th scope="col">Predicted Time (Actual)</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let match of getMatches(team.team_number)" (click)="test()">
+                    <tr *ngFor="let match of getMatches(team.team_number)" (click)="openModal(match, team)">
                       <td>{{ (match.comp_level | uppercase) + match.match_number }}</td>
                       <td *ngFor="let tm of match.alliances.red.team_keys" class="red" 
                           [class.winner-red]="match.alliances.red.score > match.alliances.blue.score"
@@ -63,6 +64,7 @@
                           {{ tm.substring(3) }}
                       </td>
                       <td class="blue" [class.winner-blue]="match.alliances.blue.score > match.alliances.red.score">{{ match.alliances.blue.score }}</td>
+                      <td>{{ convertTime(match.predicted_time) }} ({{ convertTime(match.actual_time) }})</td>
                     </tr>
                   </tbody>
                 </table>

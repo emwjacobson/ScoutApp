@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { QuerySnapshot } from '@firebase/firestore-types';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { MatchModalComponent } from '../../partials/match-modal/match-modal.component';
 
 @Component({
   selector: 'app-teams',
@@ -8,8 +10,9 @@ import { QuerySnapshot } from '@firebase/firestore-types';
   styleUrls: ['./teams.component.less']
 })
 export class TeamsComponent implements OnInit {
+  modalRef: BsModalRef;
 
-  constructor(private backend: BackendService) { }
+  constructor(private backend: BackendService, private modal: BsModalService) { }
 
   ngOnInit() {
   }
@@ -68,8 +71,21 @@ export class TeamsComponent implements OnInit {
     })[0];
   }
 
-  public test() {
-    console.log('test');
+  public convertTime(epoch_time: number) {
+    const d = new Date(epoch_time * 1000);
+    const hours = d.getHours() % 12;
+    const ampm = hours > 12 ? 'PM' : 'AM';
+    let minutes: string | number = d.getMinutes();
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    return hours + ':' + minutes + ' ' + ampm;
+  }
+
+  public openModal(match, team) {
+    const initialState = {
+      match_data: match,
+      team_data: team
+    };
+    this.modalRef = this.modal.show(MatchModalComponent, {initialState, class: 'modal-lg'});
   }
 
 }

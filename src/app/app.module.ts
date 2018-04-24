@@ -17,7 +17,11 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { AdminComponent } from './pages/admin/admin.component';
 import { AlertComponent } from './partials/alert/alert.component';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
-import { AccordionModule } from 'ngx-bootstrap';
+import { AccordionModule, ModalModule } from 'ngx-bootstrap';
+import { TeamsComponent } from './pages/teams/teams.component';
+import { MatchComponent } from './pages/match/match.component';
+import { MatchQuestionComponent } from './partials/match-question/match-question.component';
+import { MatchModalComponent } from './partials/match-modal/match-modal.component';
 // Services
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
@@ -27,9 +31,6 @@ import { BackendService } from './services/backend.service';
 // Guards
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
-import { TeamsComponent } from './pages/teams/teams.component';
-import { MatchComponent } from './pages/match/match.component';
-import { MatchQuestionComponent } from './partials/match-question/match-question.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { MatchQuestionComponent } from './partials/match-question/match-question
     TeamsComponent,
     MatchComponent,
     MatchQuestionComponent,
+    MatchModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,18 +55,22 @@ import { MatchQuestionComponent } from './partials/match-question/match-question
     FormsModule,
     ReactiveFormsModule,
     SidebarModule.forRoot(),
+    ModalModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
     AngularFireStorageModule,
     AngularFireAuthModule,
-    AccordionModule.forRoot()
+    AccordionModule.forRoot(),
   ],
   providers: [
     AuthGuard,
     AdminGuard,
     BackendService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    MatchModalComponent
+  ]
 })
 export class AppModule { }

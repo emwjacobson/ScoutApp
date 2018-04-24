@@ -242,7 +242,15 @@ export class BackendService {
 
     questions.forEach(type => {
       type.fields.forEach(question => {
-        group[question.name] = new FormControl(question.default_value, question.required ? Validators.required : null);
+        const validators = [];
+        if (question.required) {
+          validators.push(Validators.required);
+        }
+        if (question.validation_regex) {
+          validators.push(Validators.pattern(question.validation_regex));
+        }
+
+        group[question.name] = new FormControl(question.default_value, validators);
       });
     });
     return new FormGroup(group);
