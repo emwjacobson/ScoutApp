@@ -41,6 +41,25 @@
           </tr>
         </tbody>
       </table>
+      <table class="table table-bordered" style="width: 100%">
+        <thead>
+          <th *ngFor="let type of match_template" [attr.colspan]="type.fields.length">{{ type.name }}</th>
+        </thead>
+        <thead>
+          <ng-container *ngFor="let type of match_template">
+            <th *ngFor="let field of type.fields">{{ field.display_name }}</th>
+          </ng-container>
+          <th>By</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let match of scout_data">
+            <ng-container *ngFor="let type of match_template">
+              <td *ngFor="let field of type.fields">{{ match[field.name] }}</td>
+            </ng-container>
+            <td>{{ match.uploaded_by_name }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
   <div class="modal-footer">

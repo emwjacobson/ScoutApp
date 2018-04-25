@@ -85,7 +85,7 @@ export class TeamsComponent implements OnInit {
       match_data: match,
       team_data: team
     };
-    this.modalRef = this.modal.show(MatchModalComponent, {initialState, class: 'modal-lg'});
+    this.modalRef = this.modal.show(MatchModalComponent, {initialState, class: 'full-modal'});
   }
 
 }

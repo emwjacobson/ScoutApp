@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
+import { BackendService } from '../../services/backend.service';
 
 @Component({
   selector: 'app-match-modal',
@@ -9,12 +10,18 @@ import { BsModalRef } from 'ngx-bootstrap';
 export class MatchModalComponent implements OnInit {
   public match_data: any;
   public team_data: any;
+  public scout_data: any;
+  public match_template: any;
 
-  constructor(public modalRef: BsModalRef) { }
+  constructor(public modalRef: BsModalRef, private backend: BackendService) { }
 
   ngOnInit() {
     console.log(this.match_data);
     console.log(this.team_data);
+    this.scout_data = this.backend.getMatchData(this.match_data.key);
+    this.match_template = this.backend.getMatchTemplate();
+    console.log(this.scout_data);
+    console.log(this.match_template);
   }
 
   public convertTime(epoch_time: number) {

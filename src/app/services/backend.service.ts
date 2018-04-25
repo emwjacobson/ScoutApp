@@ -232,6 +232,15 @@ export class BackendService {
     return this.pit_data;
   }
 
+  public getMatchData(match_number?: number) {
+    if (match_number) {
+      return this.match_data.filter((match) => {
+        return match.match_number === match_number;
+      });
+    }
+    return this.match_data;
+  }
+
   public getMatchTemplate(): any {
     return game_template;
   }
@@ -264,6 +273,8 @@ export class BackendService {
   }
 
   public uploadMatch(data: any): Promise<boolean> {
+    data['uploaded_by'] = this.auth.auth.currentUser.uid;
+    data['uploaded_by_name'] = this.auth.auth.currentUser.displayName;
     return this.match_ref.add(data).then(a => {
       if (a) {
         return true;
