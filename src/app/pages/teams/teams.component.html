@@ -1,4 +1,5 @@
 <div class="container">
+  <app-alert enabled="true" type="primary" message="Note: Click on a match to see scout data on that match."></app-alert>
   <accordion>
     <accordion-group *ngFor="let team of getRegional().teams" [heading]="team.team_number + ' - ' + team.nickname">
       <div class="row">
