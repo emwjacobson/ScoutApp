@@ -11,6 +11,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { TeamsComponent } from './pages/teams/teams.component';
 import { MatchComponent } from './pages/match/match.component';
+import { AnalysisComponent } from './pages/analysis/analysis.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,8 +26,7 @@ const routes: Routes = [
       { path: 'schedule', component: ScheduleComponent },
       { path: 'teams', component: TeamsComponent },
       { path: 'match', component: MatchComponent },
-      // { path: 'edit-match-scouting', component: EditMatchScoutingComponent },
-      // { path: 'list', component: ListComponent }
+      { path: 'analysis', component: AnalysisComponent }
     ]
   },
   {

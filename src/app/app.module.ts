@@ -31,6 +31,7 @@ import { BackendService } from './services/backend.service';
 // Guards
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { AnalysisComponent } from './pages/analysis/analysis.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { AdminGuard } from './guards/admin.guard';
     MatchComponent,
     MatchQuestionComponent,
     MatchModalComponent,
+    AnalysisComponent,
   ],
   imports: [
     BrowserModule,

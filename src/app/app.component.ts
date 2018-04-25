@@ -20,6 +20,7 @@ export class AppComponent {
     { title: 'Match Scout', url: 'match' },
     { title: 'Team List', url: 'teams' },
     { title: 'Match Schedule', url: 'schedule' },
+    { title: 'Analysis', url: 'analysis' },
     { title: 'Settings', url: 'settings' },
   ];
   public admin_pages = [
