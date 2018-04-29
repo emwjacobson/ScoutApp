@@ -13,8 +13,4 @@ export class AnalysisComponent implements OnInit {
   ngOnInit() {
   }
 
-  public getRegional() {
-    return this.backend.getCurRegional();
-  }
-
 }
