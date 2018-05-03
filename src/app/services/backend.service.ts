@@ -245,7 +245,7 @@ export class BackendService {
     return game_template;
   }
 
-  public getTeamMatches(team_number: number): string[] {
+  public getTeamMatches(team_number: number): any[] {
     return this.regional.matches.filter((e) => e.alliances.blue.team_keys.some(tn => tn === 'frc' + team_number) || e.alliances.red.team_keys.some(tn => tn === 'frc' + team_number));
   }
 

@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { SidebarModule } from 'ng-sidebar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChartsModule } from 'ng2-charts';
 // Components
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './partials/header/header.component';
@@ -64,6 +65,7 @@ import { AnalysisComponent } from './pages/analysis/analysis.component';
     AngularFireStorageModule,
     AngularFireAuthModule,
     AccordionModule.forRoot(),
+    ChartsModule,
   ],
   providers: [
     AuthGuard,

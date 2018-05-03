@@ -4,8 +4,17 @@
       Analysis
     </div>
     <div class="card-body">
-      <h5 class="card-title">Point Analysis</h5>
-      <p class="card-text"></p>
+      <h5 class="card-title">Scoring Analysis</h5>
+      <select class="form-control" id="regional" [(ngModel)]="analy_team" name="regional" (change)="updateChart($event)">
+        <option *ngFor="let t of getTeams()" [value]="t.team_number">{{ t.team_number }}</option>
+      </select>
+      <p class="card-text" *ngIf="showChart">
+        <canvas baseChart
+        [datasets]="radarChartData"
+        [labels]="radarChartLabels"
+        [options]="radarOptions"
+        chartType="radar"></canvas>
+      </p>
     </div>
   </div>
 </div>
