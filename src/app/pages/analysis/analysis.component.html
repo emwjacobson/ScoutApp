@@ -1,15 +1,45 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      Analysis
+      Point Analysis
     </div>
     <div class="card-body">
-      <h5 class="card-title">Scoring Analysis</h5>
-      <select class="form-control" id="regional" [(ngModel)]="analy_team" name="regional" (change)="updateChart($event)">
-        <option *ngFor="let t of getTeams()" [value]="t.team_number">{{ t.team_number }}</option>
-      </select>
-      <p class="card-text" *ngIf="showChart">
+      <h5 class="card-title">Team Comparisons</h5>
+      <p class="card-text">
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="x_axis">X</label>
+            <select class="form-control" id="x_axis" [(ngModel)]="x" (change)="updateLine($event)">
+              <option *ngFor="" [value]="">{{ 'asd' }}</option>
+            </select>
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="y_axis">Y</label>
+            <select class="form-control" id="y_axis" [(ngModel)]="y" (change)="updateLine($event)">
+              <option *ngFor="" [value]="">{{ 'asd' }}</option>
+            </select>
+          </div>
+        </div>
         <canvas baseChart
+        [datasets]="lineChartData"
+        [options]="lineChartOptions"
+        [legend]="false"
+        chartType="scatter"></canvas>
+      <!-- </p> idk why this needs to be commented, angular complains that its already closed when it exists.-->
+    </div>
+  </div>
+  <br>
+  <div class="card">
+    <div class="card-header">
+      Individual Analysis
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"></h5>
+      <p class="card-text">
+        <select class="form-control" [(ngModel)]="anal_team" (change)="updateRadar($event)">
+          <option *ngFor="let t of getTeams()" [value]="t.team_number">{{ t.team_number }}</option>
+        </select>
+        <canvas baseChart *ngIf="showRadar"
         [datasets]="radarChartData"
         [labels]="radarChartLabels"
         [options]="radarOptions"
